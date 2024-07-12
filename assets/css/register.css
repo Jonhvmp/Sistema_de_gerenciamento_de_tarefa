@@ -1,20 +1,28 @@
-/* Estilos específicos para a página de login */
+/* Estilos específicos para a página de registro */
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
 
+body {
+    background-color: #f8f9fa; /* Cor de fundo suave */
+}
+
 .container {
     width: 100%;
-    max-width: 400px;
+    max-width: 400px; /* Largura máxima para telas pequenas */
     margin: auto;
     padding: 20px;
     background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px; /* Bordas arredondadas */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Sombra mais suave */
+}
+
+.card {
+    border: none; /* Remove bordas do card */
 }
 
 form {
@@ -31,6 +39,12 @@ input {
     margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    transition: border-color 0.3s; /* Transição suave para bordas */
+}
+
+input:focus {
+    border-color: #5cb85c; /* Cor da borda ao focar */
+    outline: none; /* Remove outline padrão */
 }
 
 button {
@@ -40,6 +54,7 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    transition: background 0.3s; /* Transição suave para o botão */
 }
 
 button:hover {
@@ -50,3 +65,52 @@ button:hover {
     display: block;
     color: #dc3545; /* Cor de erro do Bootstrap */
 }
+
+.btn-primary {
+    padding: 10px 20px;
+    font-size: 1.1rem;
+}
+
+/* Estilos específicos para a página de registro */
+
+.col-lg-5 {
+    width: 100%; /* Limita a largura em telas grandes */
+    flex: 0 0 auto; /* Garante que não seja flexível */
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px; /* Menos padding em telas menores */
+    }
+
+    .btn-primary {
+        font-size: 1rem; /* Tamanho menor para botões */
+    }
+
+    input {
+        margin-bottom: 15px; /* Menor margem em telas pequenas */
+    }
+}
+
+@media (min-width: 768px) {
+    .container {
+        max-width: 100%; /* Largura total em telas médias e grandes */
+        padding: 30px; /* Padding adicional */
+    }
+
+    .btn-primary {
+        font-size: 1.2rem; /* Tamanho maior para botões em telas grandes */
+    }
+
+    input {
+        margin-bottom: 25px; /* Maior margem em telas maiores */
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        max-width: 600px; /* Largura máxima em telas muito grandes */
+    }
+}
+
