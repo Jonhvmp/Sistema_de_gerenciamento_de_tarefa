@@ -1,17 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Gerenciamento de Tarefas</title>
-</head>
-<body>
-    <h1>Inicio</h1>
+<?php
+session_start();
 
-    <a href="views/login.php">Login</a>
-    <a href="views/register.php">Register</a>
+// Verifica se o usuário está logado
+if (isset($_SESSION['user_id'])) {
+    // Redireciona para a página de dashboard
+    header('Location: dashboard.php');
+    exit();
+} else {
+    // Redireciona para a página de login
+    header('Location: login.php');
+    exit();
+}
 
-    <h2>Lista de Tarefas</h2>
-
-</body>
-</html>
+?>
