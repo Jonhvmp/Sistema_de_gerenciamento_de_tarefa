@@ -40,3 +40,12 @@ nav ul li a {
 nav ul li a:hover {
     text-decoration: underline;
 }
+
+.profile-picture {
+    margin-left: auto; /* Move para a direita */
+}
+
+.profile-picture img {
+    border-radius: 50%; /* Faz a imagem ficar redonda */
+    border: 2px solid #007bff; /* Borda opcional */
+}

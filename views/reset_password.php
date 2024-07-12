@@ -1,8 +1,19 @@
 <?php
 session_start();
-include '../controllers/db.php'; // Include your database connection file
+include '../config/database.php'; // Inclua a conexão com o banco de dados
 
-// Check if the token is provided
+function cleanInput($data) {
+    return htmlspecialchars(stripslashes(trim($data)));
+}
+
+// Verifique se o usuário está logado
+if (isset($_SESSION['user_id'])) {
+    // Redirecionar para o dashboard se já estiver logado
+    header("Location: ../views/dashboard.php");
+    exit();
+}
+
+// Verificar se o token foi fornecido
 if (!isset($_GET['token'])) {
     header("Location: ../views/login.php");
     exit();
@@ -10,19 +21,19 @@ if (!isset($_GET['token'])) {
 
 $token = cleanInput($_GET['token']);
 
-// Check if the token is valid and has not been used
+// Verificar se o token é válido e não foi usado
 $stmt = $conn->prepare("SELECT id FROM users WHERE reset_token = ? AND token_expires > NOW()");
 $stmt->bind_param("s", $token);
 $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows === 0) {
-    // Token is invalid or already used
+    // Token inválido ou já usado
     header("Location: ../views/login.php");
     exit();
 }
 
-// Optional: Fetch the user ID if you need to reference it later
+// Opcional: buscar o ID do usuário se precisar referenciá-lo depois
 $user = $result->fetch_assoc();
 $user_id = $user['id'];
 ?>

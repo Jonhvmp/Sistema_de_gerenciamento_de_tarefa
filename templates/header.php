@@ -4,9 +4,13 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 ?>
 
-<header>
+<header style="display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    flex-direction: row;
+    align-items: center;">
     <link rel="stylesheet" href="../assets/css/header.css">
-    <h1>Gerenciador de tarefas</h1>
+    <h1>Gerenciador de Tarefas</h1>
     <nav>
         <ul>
             <?php if (isset($_SESSION['user_id'])): ?>
@@ -19,4 +23,22 @@ if (session_status() == PHP_SESSION_NONE) {
             <?php endif; ?>
         </ul>
     </nav>
+    <div class="profile-picture">
+        <?php if (isset($_SESSION['user_id'])): ?>
+            <?php 
+            include '../config/database.php';
+            $user_id = $_SESSION['user_id'];
+            $stmt = $conn->prepare("SELECT profile_picture FROM users WHERE id = ?");
+            $stmt->bind_param("i", $user_id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $user = $result->fetch_assoc();
+            ?>
+            <?php if (!empty($user['profile_picture'])): ?>
+                <img src="<?php echo htmlspecialchars($user['profile_picture']); ?>" alt="Foto de Perfil" class="rounded-circle" style="width: 50px; height: 50px;">
+            <?php else: ?>
+                <img src="../assets/img/default-avatar.png" alt="Ícone de Perfil" class="rounded-circle" style="width: 50px; height: 50px;">
+            <?php endif; ?>
+        <?php endif; ?>
+    </div>
 </header>

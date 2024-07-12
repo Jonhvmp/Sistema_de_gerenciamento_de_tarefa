@@ -123,12 +123,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         $mail->SMTPSecure = 'tls';
                         $mail->Port = 587;
     
-                        $mail->setFrom('jonhpaz08@gmail.com', 'Seu Nome');
+                        $mail->setFrom('jonhpaz08@gmail.com', 'Dev J. Alex');
                         $mail->addAddress($email);
     
                         $mail->isHTML(true);
-                        $mail->Subject = 'Redefinição de Senha';
+                        $mail->Subject = 'Alterar Senha';
                         $mail->Body = 'Clique no link para redefinir sua senha: <a href="' . $resetLink . '">' . $resetLink . '</a>';
+                        $mail->Body = "
+                            <div style='font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;'>
+                                <div style='max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);'>
+                                    <h2 style='text-align: center; color: #333;'>Redefinição de Senha</h2>
+                                    <p style='font-size: 16px; color: #666;'>Você solicitou uma redefinição de senha. Clique no link abaixo para redefinir sua senha:</p>
+                                    <p style='text-align: center;'>
+                                        <a href='" . $resetLink . "' style='background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>Redefinir Senha</a>
+                                    </p>
+                                    <p style='font-size: 16px; color: #666;'>Se você não solicitou isso, ignore este e-mail.</p>
+                                </div>
+                            </div>
+                        ";
     
                         $mail->send();
                         $_SESSION['alert'] = [
