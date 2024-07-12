@@ -53,6 +53,7 @@ if (isset($_SESSION['error'])) {
                         <label class="inline text-gray-600" for="remember">Lembrar-me</label>
                     </div>
                     <button type="submit" name="login" class="w-full bg-green-500 text-white rounded-md p-2 hover:bg-green-600 transition duration-200">Entrar</button>
+                    <a href="../views/forgot_password.php">Esqueceu a senha?</a>
                 </form>
             </div>
         </div>
