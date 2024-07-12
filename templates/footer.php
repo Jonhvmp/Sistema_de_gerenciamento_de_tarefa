@@ -3,10 +3,9 @@
             <h3>Gerenciador de tarefas</h3>
             <p>Gerencie suas tarefas de forma eficiente e produtiva.</p>
             <ul class="socials">
-                <li><a href="#"><i class="fa fa-facebook"></i>facebook</a></li>
-                <li><a href="#"><i class="fa fa-twitter"></i>twitter</a></li>
-                <li><a href="#"><i class="fa fa-instagram"></i>instagram</a></li>
-                <li><a href="#"><i class="fa fa-linkedin"></i>linkedin</a></li>
+                <li><a href="https://www.github.com/jonhvmp"><i class="bi bi-github" style="padding-right: 5px;"></i>GitHub</a></li>
+                <li><a href="https://www.instagram.com/jonhvmp"><i class="bi bi-instagram" style="padding-right: 5px;"></i>Instagram</a></li>
+                <li><a href="https://www.linkedin.com/in/jonhvmp"><i class="bi bi-linkedin" style="padding-right: 5px;"></i>Linkedin</a></li>
             </ul>
         </div>
         <div class="footer-bottom">

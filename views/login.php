@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,20 +18,20 @@
                 <h2 class="text-center">Login</h2>
                 <form action="../controllers/auth.php" method="POST" novalidate>
                     <div class="mb-3">
-                        <label for="email" class="form-label">Email address</label>
+                        <label for="email" class="form-label">Endereço de e-mail</label>
                         <input type="email" class="form-control" id="email" name="email" required>
                         <div class="invalid-feedback">
-                            Please enter a valid email.
+                            Por favor, insira um e-mail válido.
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
+                        <label for="password" class="form-label">Senha</label>
                         <input type="password" class="form-control" id="password" name="password" required>
                         <div class="invalid-feedback">
-                            Please enter your password.
+                            Por favor, insira sua senha.
                         </div>
                     </div>
-                    <button type="submit" name="login" class="btn btn-primary">Login</button>
+                    <button type="submit" name="login" class="btn btn-primary">Entrar</button>
                 </form>
             </div>
         </div>
@@ -42,7 +42,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.5/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
     <script>
-        // Bootstrap validation example
+        // Exemplo de validação do Bootstrap
         (function () {
             'use strict';
             var forms = document.querySelectorAll('.needs-validation');

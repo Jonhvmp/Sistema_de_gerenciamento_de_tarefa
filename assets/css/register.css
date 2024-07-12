@@ -34,12 +34,23 @@ label {
     margin: 10px 0 5px;
 }
 
+.input-group {
+    width: 100%; /* Garante que o grupo ocupe toda a largura */
+    display: flex;
+    align-items: stretch; /* Alinha verticalmente os itens */
+}
+
+.input-group .btn, .input-group .form-control {
+    height: calc(2.25rem + 2px);
+    border-radius: 5px;
+}
+
 input {
     padding: 10px;
-    margin-bottom: 20px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 5px 0 0 5px; /* Bordas arredondadas apenas do lado esquerdo */
     transition: border-color 0.3s; /* Transição suave para bordas */
+    flex: 1; /* Faz o input ocupar todo o espaço disponível */
 }
 
 input:focus {
@@ -48,13 +59,14 @@ input:focus {
 }
 
 button {
-    padding: 10px 15px;
+    padding: 10px;
     background: #5cb85c;
     color: #fff;
-    border: none;
-    border-radius: 5px;
+    border: 1px solid #5cb85c; /* Borda igual à cor do fundo */
+    border-radius: 0 5px 5px 0; /* Bordas arredondadas apenas do lado direito */
     cursor: pointer;
     transition: background 0.3s; /* Transição suave para o botão */
+    width: auto; /* O botão terá uma largura ajustada ao seu conteúdo */
 }
 
 button:hover {
@@ -67,12 +79,11 @@ button:hover {
 }
 
 .btn-primary {
-    padding: 10px 20px;
+    padding: 10px;
     font-size: 1.1rem;
 }
 
-/* Estilos específicos para a página de registro */
-
+/* Estilos específicos para a coluna */
 .col-lg-5 {
     width: 100%; /* Limita a largura em telas grandes */
     flex: 0 0 auto; /* Garante que não seja flexível */
@@ -113,4 +124,3 @@ button:hover {
         max-width: 600px; /* Largura máxima em telas muito grandes */
     }
 }
-
