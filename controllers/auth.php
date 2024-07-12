@@ -11,12 +11,10 @@ function cleanInput($data) {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['login'])) {
-        // Lógica de Login
         $email = cleanInput($_POST['email']);
         $password = cleanInput($_POST['password']);
 
         if (!empty($email) && !empty($password)) {
-            // Busca no banco de dados pelo usuário
             $stmt = $conn->prepare("SELECT id, password FROM users WHERE email = ?");
             $stmt->bind_param("s", $email);
             $stmt->execute();
@@ -24,22 +22,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             if ($result->num_rows > 0) {
                 $user = $result->fetch_assoc();
-                // Verifica a senha
                 if (password_verify($password, $user['password'])) {
                     $_SESSION['user_id'] = $user['id'];
                     header("Location: ../views/dashboard.php");
                     exit();
                 } else {
-                    // Senha incorreta
-                    echo "Invalid email or password.";
+                    $_SESSION['error'] = "E-mail ou senha inválidos.";
+                    header("Location: ../views/login.php");
+                    exit();
                 }
             } else {
-                // Usuário não encontrado
-                echo "Invalid email or password.";
+                $_SESSION['error'] = "E-mail ou senha inválidos.";
+                header("Location: ../views/login.php");
+                exit();
             }
         } else {
-            // Campos vazios
-            echo "Please fill in all fields.";
+            $_SESSION['error'] = "Por favor, preencha todos os campos.";
+            header("Location: ../views/login.php");
+            exit();
         }
     }
 
@@ -51,30 +51,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $confirm_password = cleanInput($_POST['confirm-password']);
     
         if (!empty($name) && !empty($email) && !empty($password) && !empty($confirm_password)) {
-            // Verifica se o e-mail já está cadastrado
             $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
             $stmt->bind_param("s", $email);
             $stmt->execute();
             $result = $stmt->get_result();
 
             if ($result->num_rows > 0) {
-                // E-mail já cadastrado
                 $_SESSION['error'] = "Esse e-mail já está cadastrado.";
                 header("Location: ../views/register.php");
                 exit();
             }
 
-            // Verifica se as senhas correspondem
             if ($password === $confirm_password) {
-                // Verifica os requisitos de segurança da senha
                 if (strlen($password) >= 6 && 
                     preg_match("/[A-Za-z]/", $password) && 
                     preg_match("/[0-9]/", $password) && 
                     preg_match("/[!@#$%^&*()_+]/", $password)) {
                     
-                    // Hash da senha
                     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-                    // Insere o novo usuário no banco de dados
                     $stmt = $conn->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
                     $stmt->bind_param("sss", $name, $email, $hashed_password);
     
@@ -82,26 +76,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         header("Location: ../views/login.php");
                         exit();
                     } else {
-                        echo "An error occurred. Please try again.";
+                        $_SESSION['error'] = "Ocorreu um erro. Por favor, tente novamente.";
                     }
                 } else {
-                    // Senha não atende aos requisitos
-                    $_SESSION['error'] = "A senha deve ter pelo menos 6 caracteres e incluir pelo menos uma letra maiúscula, uma letra minúscula, um número e um caractere especial.";
-                    header("Location: ../views/register.php");
-                    exit();
+                    $_SESSION['error'] = "A senha deve ter pelo menos 6 caracteres e incluir pelo menos uma letra, um número e um caractere especial.";
                 }
             } else {
-                // Senhas não correspondem
                 $_SESSION['error'] = "As senhas não correspondem.";
-                header("Location: ../views/register.php");
-                exit();
             }
         } else {
-            // Campos vazios
             $_SESSION['error'] = "Por favor, preencha todos os campos.";
-            header("Location: ../views/register.php");
-            exit();
         }
+        header("Location: ../views/register.php");
+        exit();
     }
 }
 ?>
