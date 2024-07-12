@@ -10,7 +10,15 @@ class User {
     private $password;
 
     public function __construct(
+        $db,
+        $name = null,
+        $email = null,
+        $password = null
+    ) {
         $this -> conn = $db;
+        $this -> name = $name;
+        $this -> email = $email;
+        $this -> password = $password;
     }
 
     public function register() {

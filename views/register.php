@@ -15,15 +15,17 @@ session_start();
     <?php include '../templates/header.php'; ?>
     <div class="container">
         <form action="../controllers/auth.php" method="POST">
-            <h2>Login</h2>
+            <h2>Register</h2>
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
             <label for="email">Email</label>
             <input type="email" id="email" name="email" required>
             <label for="password">Password</label>
             <input type="password" id="password" name="password" required>
-            <button type="submit" name="login">Login</button>
+            <button type="submit" name="register">Register</button>
         </form>
 
-        <a href="../views/register.php">Register</a>
+        <a href="../views/login.php">Login</a>
     </div>
     <?php include '../templates/footer.php'; ?>
 </body>
