@@ -51,6 +51,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $confirm_password = cleanInput($_POST['confirm-password']);
     
         if (!empty($name) && !empty($email) && !empty($password) && !empty($confirm_password)) {
+            // Verifica se o e-mail já está cadastrado
+            $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($result->num_rows > 0) {
+                // E-mail já cadastrado
+                $_SESSION['error'] = "Esse e-mail já está cadastrado.";
+                header("Location: ../views/register.php");
+                exit();
+            }
+
             // Verifica se as senhas correspondem
             if ($password === $confirm_password) {
                 // Verifica os requisitos de segurança da senha
@@ -58,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     preg_match("/[A-Za-z]/", $password) && 
                     preg_match("/[0-9]/", $password) && 
                     preg_match("/[!@#$%^&*()_+]/", $password)) {
-    
+                    
                     // Hash da senha
                     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
                     // Insere o novo usuário no banco de dados
@@ -73,16 +86,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     }
                 } else {
                     // Senha não atende aos requisitos
-                    echo "Password must be at least 6 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.";
+                    $_SESSION['error'] = "A senha deve ter pelo menos 6 caracteres e incluir pelo menos uma letra maiúscula, uma letra minúscula, um número e um caractere especial.";
+                    header("Location: ../views/register.php");
+                    exit();
                 }
             } else {
                 // Senhas não correspondem
-                echo "Passwords do not match.";
+                $_SESSION['error'] = "As senhas não correspondem.";
+                header("Location: ../views/register.php");
+                exit();
             }
         } else {
             // Campos vazios
-            echo "Please fill in all fields.";
+            $_SESSION['error'] = "Por favor, preencha todos os campos.";
+            header("Location: ../views/register.php");
+            exit();
         }
     }
-}    
+}
 ?>

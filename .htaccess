@@ -1,0 +1,19 @@
+# Ativar a reescrita de URLs
+RewriteEngine On
+
+# Redirecionar para o index.php em todas as requisições
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+# Configurações adicionais (opcionais)
+# Ativar compressão
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>
+
+# Proteger o acesso a arquivos sensíveis
+<FilesMatch "\.(env|ini|log|md)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
