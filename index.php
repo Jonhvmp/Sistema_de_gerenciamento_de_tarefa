@@ -11,5 +11,7 @@
     <a href="views/login.php">Login</a>
     <a href="views/register.php">Register</a>
 
+    <h2>Lista de Tarefas</h2>
+
 </body>
 </html>
