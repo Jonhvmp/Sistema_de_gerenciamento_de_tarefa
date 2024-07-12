@@ -7,7 +7,7 @@ if (isset($_SESSION['user_id'])) {
 }
 
 if (isset($_SESSION['error'])) {
-    echo '<div class="alert alert-danger">' . $_SESSION['error'] . '</div>';
+    $error = $_SESSION['error'];
     unset($_SESSION['error']);
 }
 ?>
@@ -19,6 +19,8 @@ if (isset($_SESSION['error'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php include '../templates/head.php'; ?>
     <title>Login</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
 
@@ -28,9 +30,12 @@ if (isset($_SESSION['error'])) {
         <div class="flex justify-center">
             <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-sm">
                 <h2 class="text-center text-2xl font-bold mb-6">Login</h2>
-                <?php if (isset($_GET['error'])): ?>
-                    <div class="bg-red-100 text-red-700 border border-red-300 rounded-lg p-3 mb-4">
-                        Senha ou e-mail inválido.
+                <?php if (isset($error)): ?>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <?= $error ?>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
                 <?php endif; ?>
                 <form action="../controllers/auth.php" method="POST" novalidate class="needs-validation">
@@ -53,16 +58,22 @@ if (isset($_SESSION['error'])) {
                         <label class="inline text-gray-600" for="remember">Lembrar-me</label>
                     </div>
                     <button type="submit" name="login" class="w-full bg-green-500 text-white rounded-md p-2 hover:bg-green-600 transition duration-200">Entrar</button>
-                    <a href="../views/forgot_password.php">Esqueceu a senha?</a>
                 </form>
+                <div class="mt-4 text-center">
+                    <a href="../views/forgot_password.php" class="text-blue-500 hover:underline">Esqueceu a senha?</a>
+                    <p style="margin-top: 0; margin-bottom: 0; padding:2.5px">ou</p>
+                    <a href="../views/register.php" class="text-blue-500 hover:underline">Novo usuário? Cadastre-se</a>
+                </div>
             </div>
         </div>
     </div>
 
     <?php include '../templates/footer.php'; ?>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.5/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         // Exemplo de validação do Bootstrap
         (function () {

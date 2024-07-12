@@ -2,7 +2,12 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
+
 include '../config/database.php';
+require '../vendor/autoload.php'; // Certifique-se de que o caminho está correto
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 // Função para limpar dados de entrada
 function cleanInput($data) {
@@ -91,31 +96,66 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
     }
 
-    if (isset($_POST['forgot_password'])) {
-        $email = cleanInput($_POST['email']);
-        if (!empty($email)) {
-            // Verificar se o e-mail está cadastrado
-            $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
-            $stmt->bind_param("s", $email);
-            $stmt->execute();
-            $result = $stmt->get_result();
-    
-            if ($result->num_rows > 0) {
-                $token = bin2hex(random_bytes(50)); // Gerar um token único
-                $stmt = $conn->prepare("UPDATE users SET reset_token = ?, token_expires = DATE_ADD(NOW(), INTERVAL 1 HOUR) WHERE email = ?");
-                $stmt->bind_param("ss", $token, $email);
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if (isset($_POST['forgot_password'])) {
+            $email = cleanInput($_POST['email']);
+            if (!empty($email)) {
+                $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
+                $stmt->bind_param("s", $email);
                 $stmt->execute();
+                $result = $stmt->get_result();
     
-                // Enviar o e-mail com o link de redefinição
-                $resetLink = "http://localhost/Sistema_de_gerenciamento_de_tarefa/views/reset_password.php?token=" . $token;
-                mail($email, "Redefinição de Senha", "Clique no link para redefinir sua senha: " . $resetLink);
+                if ($result->num_rows > 0) {
+                    $token = bin2hex(random_bytes(50));
+                    $stmt = $conn->prepare("UPDATE users SET reset_token = ?, token_expires = DATE_ADD(NOW(), INTERVAL 1 HOUR) WHERE email = ?");
+                    $stmt->bind_param("ss", $token, $email);
+                    $stmt->execute();
     
-                echo "Um link de redefinição de senha foi enviado para seu e-mail.";
+                    $resetLink = "http://localhost/Sistema_de_gerenciamento_de_tarefa/views/reset_password.php?token=" . $token;
+                    
+                    $mail = new PHPMailer(true);
+    
+                    try {
+                        $mail->isSMTP();
+                        $mail->Host = 'smtp.gmail.com';
+                        $mail->SMTPAuth = true;
+                        $mail->Username = 'seu_email@gmail.com';
+                        $mail->Password = 'sua_senha';
+                        $mail->SMTPSecure = 'tls';
+                        $mail->Port = 587;
+    
+                        $mail->setFrom('seu_email@gmail.com', 'Seu Nome');
+                        $mail->addAddress($email);
+    
+                        $mail->isHTML(true);
+                        $mail->Subject = 'Redefinição de Senha';
+                        $mail->Body = 'Clique no link para redefinir sua senha: <a href="' . $resetLink . '">' . $resetLink . '</a>';
+    
+                        $mail->send();
+                        $_SESSION['alert'] = [
+                            'type' => 'alert-success',
+                            'message' => 'Um link de redefinição de senha foi enviado para seu e-mail.'
+                        ];
+                    } catch (Exception $e) {
+                        $_SESSION['alert'] = [
+                            'type' => 'alert-danger',
+                            'message' => "Não foi possível enviar o e-mail. Erro: {$mail->ErrorInfo}"
+                        ];
+                    }
+                } else {
+                    $_SESSION['alert'] = [
+                        'type' => 'alert-danger',
+                        'message' => 'Esse e-mail não está cadastrado.'
+                    ];
+                }
             } else {
-                echo "Esse e-mail não está cadastrado.";
+                $_SESSION['alert'] = [
+                    'type' => 'alert-danger',
+                    'message' => 'Por favor, insira um e-mail.'
+                ];
             }
-        } else {
-            echo "Por favor, insira um e-mail.";
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            exit();
         }
     }
 
@@ -145,39 +185,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo "As senhas não correspondem.";
         }
     }
-
-    use PHPMailer\PHPMailer\PHPMailer;
-    use PHPMailer\PHPMailer\Exception;
-
-    require 'vendor/autoload.php'; // Certifique-se de que o caminho está correto
-
-    $mail = new PHPMailer(true);
-
-    try {
-        // Configurações do servidor SMTP
-        $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com'; // Seu servidor SMTP
-        $mail->SMTPAuth = true;
-        $mail->Username = 'jonhpaz08@gmail.com'; // Seu e-mail
-        $mail->Password = 'sua_senha'; // Sua senha
-        $mail->SMTPSecure = 'tls';
-        $mail->Port = 587;
-
-        // Destinatários
-        $mail->setFrom('jonhpaz08@gmail.com', 'Jonh Alex');
-        $mail->addAddress($email); // O e-mail do destinatário
-
-        // Conteúdo do e-mail
-        $mail->isHTML(true);
-        $mail->Subject = 'Redefinição de Senha';
-        $mail->Body = 'Clique no link para redefinir sua senha: <a href="' . $resetLink . '">' . $resetLink . '</a>';
-
-        $mail->send();
-        echo "Um link de redefinição de senha foi enviado para seu e-mail.";
-    } catch (Exception $e) {
-        echo "Não foi possível enviar o e-mail. Erro: {$mail->ErrorInfo}";
-    }
-
-    
 }
 ?>
