@@ -1,21 +1,14 @@
 <?php
-class Database {
-    private $host = "localhost";
-    private $db_name = "task_manager";
-    private $username = "root";
-    private $password = "";
-    public $conn;
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "task_manager";
 
-    public function getConnection() {
-        $this -> conn = null;
+// Cria a conexão
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-        try {
-            $this -> conn = new PDO("mysql:host=" . $this -> host . ";dbname=" . $this -> db_name, $this -> username, $this -> password);
-            $this -> conn -> exec("set names utf8");
-        } catch(PDOException $exception) {
-            echo "Connection error: " . $exception -> getMessage();
-        }
-
-        return $this -> conn;
-    }
+// Verifica a conexão
+if ($conn->connect_error) {
+    die("Falha na conexão: " . $conn->connect_error);
 }
+?>

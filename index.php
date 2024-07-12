@@ -3,12 +3,12 @@ session_start();
 
 // Verifica se o usuário está logado
 if (isset($_SESSION['user_id'])) {
-    // Redireciona para a página de dashboard
-    header('Location: views/dashboard.php');
+    // Redireciona para o dashboard se o usuário estiver logado
+    header("Location: views/dashboard.php");
     exit();
 } else {
-    // Redireciona para a página de login
-    header('Location: views/login.php');
+    // Redireciona para a página de login se o usuário não estiver logado
+    header("Location: views/login.php");
     exit();
 }
 ?>

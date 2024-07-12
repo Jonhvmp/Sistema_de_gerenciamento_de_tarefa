@@ -1,11 +1,22 @@
-<!-- header -->
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+?>
+
 <header>
-    <h1>Task Manager</h1>
+    <link rel="stylesheet" href="../assets/css/header.css">
+    <h1>Gerenciador de tarefas</h1>
     <nav>
         <ul>
-            <li><a href="index.php">Home</a></li>
-            <li><a href="login.php">Login</a></li>
-            <li><a href="register.php">Register</a></li>
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <li><a href="../views/dashboard.php">Painel</a></li>
+                <li><a href="../views/profile.php">Perfil</a></li>
+                <li><a href="../controllers/logout.php">Sair</a></li>
+            <?php else: ?>
+                <li><a href="../views/login.php">Conecte-se</a></li>
+                <li><a href="../views/register.php">Registro</a></li>
+            <?php endif; ?>
         </ul>
     </nav>
 </header>
