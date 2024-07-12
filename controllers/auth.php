@@ -112,19 +112,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $stmt->execute();
     
                     $resetLink = "http://localhost/Sistema_de_gerenciamento_de_tarefa/views/reset_password.php?token=" . $token;
-                    
-                    $mail = new PHPMailer(true);
     
+                    $mail = new PHPMailer(true);
                     try {
                         $mail->isSMTP();
                         $mail->Host = 'smtp.gmail.com';
                         $mail->SMTPAuth = true;
-                        $mail->Username = 'seu_email@gmail.com';
-                        $mail->Password = 'sua_senha';
+                        $mail->Username = 'jonhpaz08@gmail.com';
+                        $mail->Password = 'rojp njao ycuj ywnq';
                         $mail->SMTPSecure = 'tls';
                         $mail->Port = 587;
     
-                        $mail->setFrom('seu_email@gmail.com', 'Seu Nome');
+                        $mail->setFrom('jonhpaz08@gmail.com', 'Seu Nome');
                         $mail->addAddress($email);
     
                         $mail->isHTML(true);
@@ -165,25 +164,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $confirm_password = cleanInput($_POST['confirm_password']);
     
         if ($new_password === $confirm_password) {
-            // Verificar se o token é válido
+            // Verify if the token is valid
             $stmt = $conn->prepare("SELECT id FROM users WHERE reset_token = ? AND token_expires > NOW()");
             $stmt->bind_param("s", $token);
             $stmt->execute();
             $result = $stmt->get_result();
     
             if ($result->num_rows > 0) {
+                // Proceed with password reset
                 $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
                 $stmt = $conn->prepare("UPDATE users SET password = ?, reset_token = NULL, token_expires = NULL WHERE reset_token = ?");
                 $stmt->bind_param("ss", $hashed_password, $token);
                 $stmt->execute();
     
-                echo "Senha redefinida com sucesso! Você pode fazer login agora.";
+                // Success message
+                $_SESSION['alert'] = [
+                    'type' => 'success',
+                    'message' => 'Senha redefinida com sucesso! Você pode fazer login agora.'
+                ];
+                header("Location: ../views/dashboard.php"); // Redirect to the dashboard
+                exit();
             } else {
-                echo "Token inválido ou expirado.";
+                // Invalid or expired token
+                $_SESSION['alert'] = [
+                    'type' => 'danger',
+                    'message' => 'Token inválido ou expirado.'
+                ];
+                header("Location: ../views/login.php"); // Redirect to the login page
+                exit();
             }
         } else {
-            echo "As senhas não correspondem.";
+            // Passwords do not match
+            $_SESSION['alert'] = [
+                'type' => 'danger',
+                'message' => 'As senhas não correspondem.'
+            ];
+            header("Location: ../views/reset_password.php?token=" . $token);
+            exit();
         }
-    }
+    }       
 }
 ?>
