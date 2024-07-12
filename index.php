@@ -6,25 +6,10 @@
     <title>Sistema de Gerenciamento de Tarefas</title>
 </head>
 <body>
+    <h1>Inicio</h1>
 
-    <?php include '../templates/header.php'; ?>
+    <a href="views/login.php">Login</a>
+    <a href="views/register.php">Register</a>
 
-    <div class="container">
-        <h1>Dashboard</h1>
-        <h2>Bem-vindo, <?php echo $_SESSION['user_name']; ?></h2>
-        <a href="../controllers/auth.php?logout=true">Logout</a>
-    </div>
-
-    <div>
-        <h2>Tarefas</h2>
-        <ul>
-            <li>Estudar PHP</li>
-            <li>Estudar JavaScript</li>
-            <li>Estudar MySQL</li>
-        </ul>
-    </div>
-
-    <?php include '../templates/footer.php'; ?>
-    
 </body>
 </html>
