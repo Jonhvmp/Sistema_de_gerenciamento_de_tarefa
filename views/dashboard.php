@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+// Verifica se o usuário está autenticado
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit();
@@ -12,26 +13,7 @@ include_once '../config/database.php'; // Inclua o arquivo apenas uma vez
 $database = new Database();
 $conn = $database->getConnection();
 
-// Adiciona uma nova tarefa ao banco de dados se o formulário for enviado
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $title = $_POST['title'];
-    $description = $_POST['description'];
-    $due_date = $_POST['due_date'];
-    $user_id = $_SESSION['user_id'];
-
-    // Prepara e executa a consulta para adicionar a nova tarefa
-    $query = "INSERT INTO tasks (title, description, due_date, user_id) VALUES (?, ?, ?, ?)";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("sssi", $title, $description, $due_date, $user_id);
-
-    if ($stmt->execute()) {
-        $message = "Tarefa adicionada com sucesso!";
-    } else {
-        $message = "Erro ao adicionar tarefa: " . $stmt->error;
-    }
-}
-
-// Recupera todas as tarefas do banco de dados
+// Consulta para obter tarefas do usuário
 $query = "SELECT * FROM tasks WHERE user_id = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $_SESSION['user_id']);
@@ -44,41 +26,40 @@ $result = $stmt->get_result();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerenciamento de Tarefas</title>
+    <title>Dashboard - Gerenciador de Tarefas</title>
     <link rel="stylesheet" href="../assets/css/dashboard.css">
     <?php include '../templates/head.php'; ?>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/dist/fullcalendar.min.css">
 </head>
 <body>
     <?php include '../templates/header.php'; ?>
 
     <main>
+        <!-- Seção de Resumo das Tarefas -->
+        <section class="dashboard-summary">
+            <h2>Resumo das Tarefas</h2>
+            <div id="task-stats">
+                <canvas id="taskChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Seção de Gerenciamento de Tarefas -->
         <section class="task-manager">
             <h2>Gerenciamento de Tarefas</h2>
-
-            <?php if (isset($message)): ?>
-                <div class="alert">
-                    <?php echo htmlspecialchars($message); ?>
-                </div>
-            <?php endif; ?>
-
+            <!-- Botão para Adicionar Nova Tarefa -->
             <button id="add-task-btn">Adicionar Nova Tarefa</button>
-            <div id="add-task-form" style="display:none;">
-                <form id="task-form" method="post">
-                    <label for="title">Título da Tarefa:</label>
-                    <input type="text" id="title" name="title" required>
-                    
-                    <label for="description">Descrição:</label>
-                    <textarea id="description" name="description" required></textarea>
-                    
-                    <label for="due_date">Data de Vencimento:</label>
-                    <input type="date" id="due_date" name="due_date" required>
-                    
-                    <button type="submit">Adicionar Tarefa</button>
+
+            <!-- Formulário para Adicionar Tarefas -->
+            <div id="task-form-container" style="display:none;">
+                <form id="task-form">
+                    <label for="task-title">Título da Tarefa:</label>
+                    <input type="text" id="task-title" name="title" required>
+                    <input type="submit" value="Adicionar Tarefa">
                 </form>
             </div>
 
+            <!-- Lista de Tarefas -->
             <div id="task-list">
                 <ul>
                     <?php if ($result->num_rows > 0): ?>
@@ -96,6 +77,7 @@ $result = $stmt->get_result();
             </div>
         </section>
 
+        <!-- Seção do Calendário -->
         <section class="calendar">
             <h2>Calendário</h2>
             <div id="calendar"></div>
@@ -104,6 +86,7 @@ $result = $stmt->get_result();
         <?php include '../templates/footer.php'; ?>
     </main>
 
+    <!-- Scripts necessários -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
     <script src="../assets/js/dashboard.js"></script>
