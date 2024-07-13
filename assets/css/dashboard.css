@@ -1,184 +1,271 @@
+/* Estilos Gerais */
 body {
-  font-family: "Arial", sans-serif;
-  background-color: #f0f0f0;
-  margin: 0;
-  padding: 0;
-}
-
-main {
-  max-width: 1200px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-}
-
-.dashboard-summary {
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #ccc;
-}
-.dashboard-summary h2 {
-  color: #4CAF50;
-  margin-bottom: 10px;
-}
-.dashboard-summary #task-stats {
-  text-align: center;
-}
-.dashboard-summary #task-stats canvas#taskChart {
-  width: 100%;
-  max-width: 600px;
-  height: auto;
-}
-
-.task-manager {
-  margin-bottom: 20px;
-}
-.task-manager h2 {
-  color: #4CAF50;
-  margin-bottom: 10px;
-}
-.task-manager button#add-task-btn {
-  background-color: #2196F3;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-.task-manager button#add-task-btn:hover {
-  background-color: #0c7cd5;
-}
-.task-manager #task-list ul {
-  list-style-type: none;
-  padding: 0;
-}
-.task-manager #task-list ul li {
-  padding: 10px 0;
-  border-bottom: 1px solid #eee;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.task-manager #task-list ul li a {
-  text-decoration: none;
-  color: #2196F3;
-  margin-left: 10px;
-  transition: color 0.3s ease;
-}
-.task-manager #task-list ul li a:hover {
-  color: #0960a5;
-}
-
-.calendar {
-  margin-top: 20px;
-  position: relative;
-}
-.calendar h2 {
-  color: #4CAF50;
-  margin-bottom: 10px;
-}
-.calendar #calendar {
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 0;
-  border-radius: 8px;
-  overflow: hidden;
-}
-.calendar #calendar .fc {
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-.calendar #calendar .fc .fc-toolbar {
-  background-color: #4CAF50;
-  color: #fff;
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-}
-.calendar #calendar .fc .fc-daygrid-day {
-  border: 1px solid #ddd;
-}
-.calendar #calendar .fc .fc-daygrid-day-number {
-  color: #333;
-}
-.calendar #calendar .fc .fc-daygrid-day-events {
-  color: #2196F3;
-}
-.calendar #calendar .fc .fc-button-primary {
-  background-color: #2196F3;
-  border-color: #2196F3;
-}
-.calendar #calendar .fc .fc-button-primary:hover {
-  background-color: #0c7cd5;
-  border-color: #0c7cd5;
-}
-
-/* Estilos para o Modal */
-#add-task-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-content {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  width: 400px;
-  position: relative;
-}
-
-.close-modal {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-  font-size: 24px;
-  color: #333;
-}
-
-h2 {
-  margin-top: 0;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-}
-
-label {
-  margin-top: 10px;
-}
-
-input, textarea {
-  margin-top: 5px;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-button {
-  margin-top: 10px;
-  background-color: #4CAF50;
-  color: #fff;
-  border: none;
-  padding: 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #3d8b40;
-}
-
-/*# sourceMappingURL=dashboard.css.map */
+    font-family: "Arial", sans-serif;
+    background-color: #f0f0f0; /* Cor de fundo geral */
+    margin: 0;
+    padding: 0;
+  }
+  
+  main {
+    max-width: 1200px; /* Largura máxima do conteúdo principal */
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff; /* Cor de fundo do conteúdo principal */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra ao redor do conteúdo */
+    border-radius: 8px; /* Bordas arredondadas */
+  }
+  
+  /* Seção de Resumo das Tarefas */
+  .dashboard-summary {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ccc; /* Linha inferior para separação */
+  }
+  
+  .dashboard-summary h2 {
+    color: #4CAF50; /* Cor do título */
+    margin-bottom: 10px;
+    font-size: 24px;
+  }
+  
+  .dashboard-summary #task-stats {
+    text-align: center;
+  }
+  
+  .dashboard-summary #task-stats canvas#taskChart {
+    width: 100%;
+    max-width: 600px; /* Largura máxima do gráfico */
+    height: auto;
+  }
+  
+  /* Seção de Gerenciamento de Tarefas */
+  .task-manager {
+    margin-bottom: 20px;
+  }
+  
+  .task-manager h2 {
+    color: #4CAF50; /* Cor do título */
+    margin-bottom: 10px;
+    font-size: 24px;
+  }
+  
+  .task-manager button#add-task-btn {
+    background-color: #2196F3; /* Cor do botão */
+    color: #fff; /* Cor do texto do botão */
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Transições suaves */
+    border-radius: 4px; /* Bordas arredondadas */
+  }
+  
+  .task-manager button#add-task-btn:hover {
+    background-color: #0c7cd5; /* Cor do botão ao passar o mouse */
+    transform: scale(1.05); /* Efeito de aumento ao passar o mouse */
+  }
+  
+  .task-manager #task-form-container {
+    margin-top: 20px;
+  }
+  
+  .task-manager #task-form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espaçamento entre os elementos do formulário */
+  }
+  
+  .task-manager #task-form-container label {
+    font-size: 16px;
+  }
+  
+  .task-manager #task-form-container input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .task-manager #task-form-container input[type="submit"] {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .task-manager #task-form-container input[type="submit"]:hover {
+    background-color: #3d8b40; /* Cor ao passar o mouse */
+  }
+  
+  /* Lista de Tarefas */
+  .task-manager #task-list ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .task-manager #task-list ul li {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fafafa; /* Cor de fundo das tarefas */
+    border-radius: 4px; /* Bordas arredondadas */
+  }
+  
+  .task-manager #task-list ul li:hover {
+    background-color: #f0f0f0; /* Cor de fundo ao passar o mouse */
+  }
+  
+  .task-manager #task-list ul li a {
+    text-decoration: none;
+    color: #2196F3; /* Cor dos links */
+    margin-left: 10px;
+    transition: color 0.3s ease;
+  }
+  
+  .task-manager #task-list ul li a:hover {
+    color: #0960a5; /* Cor ao passar o mouse */
+  }
+  
+  /* Seção do Calendário */
+  .calendar {
+    margin-top: 20px;
+    position: relative;
+  }
+  
+  .calendar h2 {
+    color: #4CAF50; /* Cor do título */
+    margin-bottom: 10px;
+    font-size: 24px;
+  }
+  
+  .calendar #calendar {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra ao redor do calendário */
+  }
+  
+  .calendar #calendar .fc {
+    border-radius: 8px;
+  }
+  
+  .calendar #calendar .fc-toolbar {
+    background-color: #4CAF50; /* Cor do cabeçalho do calendário */
+    color: #fff; /* Cor do texto do cabeçalho */
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .calendar #calendar .fc-daygrid-day {
+    border: 1px solid #ddd; /* Borda ao redor dos dias */
+  }
+  
+  .calendar #calendar .fc-daygrid-day-number {
+    color: #333; /* Cor dos números dos dias */
+  }
+  
+  .calendar #calendar .fc-daygrid-day-events {
+    color: #2196F3; /* Cor dos eventos */
+  }
+  
+  .calendar #calendar .fc-button-primary {
+    background-color: #2196F3; /* Cor dos botões primários */
+    border-color: #2196F3; /* Cor da borda dos botões primários */
+  }
+  
+  .calendar #calendar .fc-button-primary:hover {
+    background-color: #0c7cd5; /* Cor ao passar o mouse */
+    border-color: #0c7cd5; /* Cor da borda ao passar o mouse */
+  }
+  
+  /* Estilos para o Modal */
+  #add-task-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Cor de fundo do modal */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal-content {
+    background-color: #fff; /* Cor de fundo do conteúdo do modal */
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    position: relative;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra ao redor do modal */
+  }
+  
+  .close-modal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 24px;
+    color: #333; /* Cor do botão de fechar */
+  }
+  
+  h2 {
+    margin-top: 0;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  label {
+    margin-top: 10px;
+  }
+  
+  input, textarea {
+    margin-top: 5px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  button {
+    margin-top: 10px;
+    background-color: #4CAF50; /* Cor do botão */
+    color: #fff; /* Cor do texto do botão */
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #3d8b40; /* Cor ao passar o mouse */
+  }
+  
+  /* Media Queries para Responsividade */
+  @media (max-width: 768px) {
+    main {
+      padding: 10px;
+    }
+  
+    .task-manager button#add-task-btn {
+      font-size: 14px;
+      padding: 8px 16px;
+    }
+  
+    .modal-content {
+      width: 90%;
+      padding: 15px;
+    }
+  }
+  
