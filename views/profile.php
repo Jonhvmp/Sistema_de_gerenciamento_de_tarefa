@@ -85,221 +85,277 @@ if (isset($_SESSION['message'])) {
     <style>
         /* assets/css/profile.css */
 
-        /* Reseta estilos padrões e define a fonte global */
-        * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Poppins', sans-serif;
-        }
+/* Reseta estilos padrões e define a fonte global */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
 
-        /* Estilos gerais do corpo da página */
-        body {
-        background: linear-gradient(135deg, #f0f4f8, #d9e1e8);
-        color: #333;
-        font-size: 16px;
-        line-height: 1.6;
-        }
+/* Estilos gerais do corpo da página */
+body {
+    background: linear-gradient(135deg, #f0f4f8, #d9e1e8);
+    color: #333;
+    font-size: 16px;
+    line-height: 1.6;
+}
 
-        /* Container principal do perfil */
-        .container {
-        width: 100%;
-        max-width: 900px;
-        margin: 40px auto;
-        padding: 30px;
-        background: #fff;
-        border-radius: 10px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        position: relative;
-        overflow: hidden;
-        transition: all 0.5s ease;
-        }
+/* Efeito de fundo do container com gradiente suave e animação */
+.container {
+    width: 100%;
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
 
-        /* Efeito de fundo do container com gradiente suave e animação */
-        .container::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: radial-gradient(circle at top right, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0));
-        z-index: 0;
-        pointer-events: none;
-        transition: opacity 0.5s ease;
-        }
+/* Adicionando um efeito de leveza ao container ao passar o mouse */
+.container:hover {
+    transform: scale(1.02);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
 
-        /* Adicionando um efeito de leveza ao container ao passar o mouse */
-        .container:hover {
-        transform: scale(1.02);
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-        }
+/* Efeito de fundo radial no hover para um destaque sutil */
+.container:hover::before {
+    opacity: 0.1;
+}
 
-        /* Título do perfil */
-        h2 {
-        text-align: center;
-        margin-bottom: 30px;
-        font-size: 2em;
-        color: #4CAF50;
-        position: relative;
-        z-index: 1;
-        background: linear-gradient(45deg, #4CAF50, #2c6e49);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        transition: color 0.3s ease;
-        }
 
-        /* Mensagem de alerta */
-        .alert {
-        padding: 15px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        font-size: 16px;
-        position: relative;
-        z-index: 1;
-        transition: transform 0.3s ease, opacity 0.3s ease;
-        }
+/* Título do perfil */
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    color: #4CAF50;
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(45deg, #4CAF50, #2c6e49);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: color 0.3s ease;
+    animation: titleGlow 1.5s infinite alternate;
+}
 
-        .alert-success {
-        background: #d4edda;
-        color: #155724;
-        border: 1px solid #c3e6cb;
-        }
+@keyframes titleGlow {
+    from {
+        text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    }
+    to {
+        text-shadow: 0 0 20px rgba(0, 255, 0, 0.8);
+    }
+}
 
-        .alert-success:hover {
-        transform: scale(1.02);
-        opacity: 0.9;
-        }
+/* Mensagem de alerta */
+.alert {
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    animation: fadeIn 0.5s ease-in-out;
+}
 
-        /* Formulário de perfil */
-        form {
-        position: relative;
-        z-index: 1;
-        }
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
 
-        /* Espaçamento entre elementos */
-        .mb-3 {
-        margin-bottom: 25px;
-        }
+.alert-success:hover {
+    transform: scale(1.02);
+    opacity: 0.9;
+}
 
-        .form-label {
-        display: block;
-        font-size: 18px;
-        margin-bottom: 8px;
-        color: #555;
-        transition: color 0.3s ease;
-        }
+/* Formulário de perfil */
+form {
+    position: relative;
+    z-index: 1;
+}
 
-        .form-label:hover {
-        color: #4CAF50;
-        }
+/* Espaçamento entre elementos */
+.mb-3 {
+    margin-bottom: 25px;
+    animation: formElementAnimation 0.5s ease-in-out;
+}
 
-        .form-control {
-        width: 100%;
-        padding: 12px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        font-size: 16px;
-        transition: all 0.3s ease;
-        background: #f9f9f9;
-        }
+@keyframes formElementAnimation {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
-        .form-control:focus {
-        border-color: #4CAF50;
-        background: #fff;
-        outline: none;
-        box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
-        }
+.form-label {
+    display: block;
+    font-size: 18px;
+    margin-bottom: 8px;
+    color: #555;
+    transition: color 0.3s ease;
+}
 
-        /* Botões */
-        .btn {
-        display: inline-block;
-        padding: 12px 24px;
-        font-size: 16px;
-        font-weight: bold;
-        text-align: center;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
-        margin-right: 10px;
-        position: relative;
-        z-index: 1;
-        background: linear-gradient(45deg, #4CAF50, #2c6e49);
-        color: #fff;
-        }
+.form-label:hover {
+    color: #4CAF50;
+}
 
-        .btn-primary:hover {
-        background: linear-gradient(45deg, #45a049, #1d5a34);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background: #f9f9f9;
+    animation: formControlFocus 0.5s ease-in-out;
+}
+
+@keyframes formControlFocus {
+    from {
+        background-color: #f9f9f9;
+    }
+    to {
+        background-color: #fff;
+    }
+}
+
+.form-control:focus {
+    border-color: #4CAF50;
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Botões */
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    margin-right: 10px;
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(45deg, #4CAF50, #2c6e49);
+    color: #fff;
+    animation: btnHoverEffect 0.5s ease-in-out;
+}
+
+@keyframes btnHoverEffect {
+    from {
+        transform: translateY(0);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    to {
         transform: translateY(-2px);
-        }
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+}
 
-        .btn-secondary {
-        background: linear-gradient(45deg, #6c757d, #5a6268);
-        color: #fff;
-        }
+.btn-primary:hover {
+    background: linear-gradient(45deg, #45a049, #1d5a34);
+}
 
-        .btn-secondary:hover {
-        background: linear-gradient(45deg, #5a6268, #4e555b);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        transform: translateY(-2px);
-        }
+.btn-secondary {
+    background: linear-gradient(45deg, #6c757d, #5a6268);
+    color: #fff;
+}
 
-        /* Formulário de alteração de senha e upload de foto */
-        #change-password-form, #upload-picture-form {
-        display: none;
-        }
+.btn-secondary:hover {
+    background: linear-gradient(45deg, #5a6268, #4e555b);
+}
 
-        #change-password-form input, #upload-picture-form input {
-        margin-top: 5px;
-        }
+/* Formulário de alteração de senha e upload de foto */
+#change-password-form, #upload-picture-form {
+    display: none;
+    animation: formFadeIn 0.5s ease-in-out;
+}
 
-        /* Estilo para foto de perfil */
-        .profile-picture {
-        text-align: center;
-        position: relative;
-        }
+@keyframes formFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
 
-        /* Foto de perfil com efeitos de borda e sombra */
-        .profile-picture img {
-        max-width: 180px;
-        max-height: 180px;
-        border-radius: 50%;
-        border: 5px solid #4CAF50;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        object-fit: cover;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+#change-password-form input, #upload-picture-form input {
+    margin-top: 5px;
+}
 
-        /* Efeito de hover na foto de perfil */
-        .profile-picture img:hover {
-        transform: scale(1.1) rotate(2deg);
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
-        }
+/* Estilo para foto de perfil */
+.profile-picture {
+    text-align: center;
+    position: relative;
+}
 
-        /* Estilos adicionais para responsividade */
-        @media (max-width: 768px) {
-        .container {
-            padding: 20px;
-        }
+/* Foto de perfil com efeitos de borda e sombra */
+.profile-picture img {
+    max-width: 180px;
+    max-height: 180px;
+    border-radius: 50%;
+    border: 5px solid #4CAF50;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    object-fit: cover;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
 
-        .form-control {
-            font-size: 14px;
-        }
+/* Efeito de hover na foto de perfil */
+.profile-picture img:hover {
+    transform: scale(1.15) rotate(5deg);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
 
-        .btn {
-            font-size: 14px;
-            padding: 10px 20px;
-        }
+/* Estilos adicionais para responsividade */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
 
-        .profile-picture img {
-            max-width: 150px;
-            max-height: 150px;
-        }
-        }
+    .form-control {
+        font-size: 14px;
+    }
 
+    .btn {
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+
+    .profile-picture img {
+        max-width: 150px;
+        max-height: 150px;
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
     </style>
 </head>
 <body>
@@ -389,6 +445,8 @@ if (isset($_SESSION['message'])) {
             this.style.display = 'none';
         });
     </script>
+
+    <script src="../assets/js/profile.js"></script>
 
     <?php include '../templates/footer.php'; ?>
 </body>

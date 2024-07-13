@@ -24,7 +24,247 @@ if (isset($_SESSION['success'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php include '../templates/head.php'; ?>
     <title>Criar Conta</title>
-    <link rel="stylesheet" href="../assets/css/register.css">
+    <style>
+        /* Estilos específicos para a página de registro */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa; /* Cor de fundo suave */
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px; /* Largura máxima para telas pequenas */
+            margin: 20px auto; /* Centraliza horizontalmente */
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp 0.6s forwards;
+            background: linear-gradient(135deg, #f8f9fa 25%, #ffffff 100%);
+        }
+
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .container:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .card {
+            border: none; /* Remove bordas do card */
+            transition: transform 0.3s ease;
+            animation: slideUp 0.6s 0.1s forwards; /* Slight delay for staggered effect */
+        }
+
+        .card:hover {
+            transform: scale(1.02);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            animation: slideUp 0.6s 0.2s forwards; /* Slight delay for staggered effect */
+        }
+
+        label {
+            margin: 10px 0 5px;
+            font-weight: bold;
+            color: #343a40;
+            transition: color 0.3s;
+            animation: fadeInLeft 0.8s forwards;
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        label:hover {
+            color: #5cb85c;
+        }
+
+        input {
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+            animation: fadeInRight 0.8s forwards;
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        input:focus {
+            border-color: #5cb85c; /* Cor da borda ao focar */
+            outline: none; /* Remove outline padrão */
+            box-shadow: 0 0 5px rgba(92, 184, 92, 0.5);
+            transform: scale(1.02);
+        }
+
+        button {
+            padding: 10px 15px;
+            background: linear-gradient(45deg, #5cb85c, #4cae4c);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInBottom 1s forwards;
+        }
+
+        @keyframes fadeInBottom {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        button:hover {
+            background: linear-gradient(45deg, #4cae4c, #5cb85c);
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(76, 174, 76, 0.5);
+        }
+
+        button::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: rgba(255, 255, 255, 0.15);
+            transition: all 0.3s;
+            transform: translate(-50%, -50%) scale(0);
+            border-radius: 50%;
+        }
+
+        button:hover::before {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .invalid-feedback {
+            display: block;
+            color: #dc3545; /* Cor de erro do Bootstrap */
+            animation: shake 0.3s ease-in-out;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+
+        .btn-primary {
+            padding: 10px 20px;
+            font-size: 1.1rem;
+        }
+
+        /* Estilos específicos para a página de registro */
+
+        .col-lg-5 {
+            width: 100%; /* Limita a largura em telas grandes */
+            flex: 0 0 auto; /* Garante que não seja flexível */
+        }
+
+        /* Estilos responsivos */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px; /* Menos padding em telas menores */
+            }
+
+            .btn-primary {
+                font-size: 1rem; /* Tamanho menor para botões */
+            }
+
+            input {
+                margin-bottom: 15px; /* Menor margem em telas pequenas */
+            }
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                max-width: 100%; /* Largura total em telas médias e grandes */
+                padding: 30px; /* Padding adicional */
+            }
+
+            .btn-primary {
+                font-size: 1.2rem; /* Tamanho maior para botões em telas grandes */
+            }
+
+            input {
+                margin-bottom: 25px; /* Maior margem em telas maiores */
+            }
+        }
+
+        @media (min-width: 992px) {
+            .container {
+                max-width: 600px; /* Largura máxima em telas muito grandes */
+            }
+        }
+
+        .input-group .btn, .input-group .form-control {
+            height: calc(2.25rem + 2px);
+            border-radius: 5px;
+        }
+
+
+        .bg-gray-100 {
+            --tw-bg-opacity: 1;
+            background: linear-gradient(45deg, black, #333333);
+        }
+
+        .mt-5 {
+            margin-top: 20px !important;
+        }
+    </style>
 </head>
 <body class="bg-gray-100">
 
