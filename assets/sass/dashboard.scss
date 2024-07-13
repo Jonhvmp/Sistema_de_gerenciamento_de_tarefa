@@ -1,14 +1,15 @@
 // Importações de bibliotecas ou arquivos de estilo externos, se necessário
-@import '../path/to/external/library.scss';
 
 // Variáveis de cores e estilos
 $primary-color: #4CAF50;
 $secondary-color: #2196F3;
+$light-background: #f9f9f9;
+$border-color: #ddd;
 
 // Estilos para o Dashboard
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f0f0f0;
+    background-color: $light-background;
     margin: 0;
     padding: 0;
 }
@@ -22,14 +23,17 @@ main {
     border-radius: 8px;
 }
 
+// Dashboard Summary
 .dashboard-summary {
     margin-bottom: 20px;
     padding-bottom: 20px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid $border-color;
 
     h2 {
         color: $primary-color;
         margin-bottom: 10px;
+        font-size: 1.5em;
+        font-weight: bold;
     }
 
     #task-stats {
@@ -43,12 +47,15 @@ main {
     }
 }
 
+// Task Manager
 .task-manager {
     margin-bottom: 20px;
 
     h2 {
         color: $primary-color;
         margin-bottom: 10px;
+        font-size: 1.5em;
+        font-weight: bold;
     }
 
     button#add-task-btn {
@@ -58,10 +65,12 @@ main {
         padding: 10px 20px;
         font-size: 16px;
         cursor: pointer;
-        transition: background-color 0.3s ease;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, transform 0.3s ease;
 
         &:hover {
             background-color: darken($secondary-color, 10%);
+            transform: scale(1.05);
         }
     }
 
@@ -71,11 +80,15 @@ main {
             padding: 0;
 
             li {
-                padding: 10px 0;
-                border-bottom: 1px solid #eee;
+                padding: 10px 15px;
+                border-bottom: 1px solid $border-color;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
+
+                &:last-child {
+                    border-bottom: none;
+                }
 
                 a {
                     text-decoration: none;
@@ -92,12 +105,36 @@ main {
     }
 }
 
+// Calendar
 .calendar {
     h2 {
         color: $primary-color;
         margin-bottom: 10px;
+        font-size: 1.5em;
+        font-weight: bold;
+    }
+
+    #calendar {
+        /* Estilize o calendário conforme necessário */
     }
 }
 
-// Estilos para o rodapé, se necessário
-@import '../path/to/footer.scss';
+// Media Queries para Responsividade
+@media (max-width: 768px) {
+    main {
+        padding: 10px;
+    }
+
+    button#add-task-btn {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    #task-list ul {
+        padding: 0;
+    }
+
+    #task-list li {
+        font-size: 14px;
+    }
+}

@@ -1,57 +1,111 @@
-/* dashboard.css */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
-
+@charset "UTF-8";
 body {
-    font-family: Arial, sans-serif;
+  font-family: "Arial", sans-serif;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
 }
 
 main {
-    padding: 20px;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 }
 
-.dashboard-summary,
-.task-manager,
-.calendar,
-.profile-info {
-    margin-bottom: 30px;
+.dashboard-summary {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+}
+.dashboard-summary h2 {
+  color: #4CAF50;
+  margin-bottom: 10px;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+.dashboard-summary #task-stats {
+  text-align: center;
+}
+.dashboard-summary #task-stats canvas#taskChart {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
 }
 
-h2 {
-    font-size: 1.5em;
-    margin-bottom: 10px;
+.task-manager {
+  margin-bottom: 20px;
+}
+.task-manager h2 {
+  color: #4CAF50;
+  margin-bottom: 10px;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+.task-manager button#add-task-btn {
+  background-color: #2196F3;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.task-manager button#add-task-btn:hover {
+  background-color: #0c7cd5;
+  transform: scale(1.05);
+}
+.task-manager #task-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+.task-manager #task-list ul li {
+  padding: 10px 15px;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.task-manager #task-list ul li:last-child {
+  border-bottom: none;
+}
+.task-manager #task-list ul li a {
+  text-decoration: none;
+  color: #2196F3;
+  margin-left: 10px;
+  transition: color 0.3s ease;
+}
+.task-manager #task-list ul li a:hover {
+  color: #0960a5;
 }
 
-#task-list ul {
-    list-style-type: none;
-    padding: 0;
+.calendar h2 {
+  color: #4CAF50;
+  margin-bottom: 10px;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+.calendar #calendar {
+  /* Estilize o calendário conforme necessário */
 }
 
-#task-list li {
+@media (max-width: 768px) {
+  main {
     padding: 10px;
-    border-bottom: 1px solid #ddd;
+  }
+  button#add-task-btn {
+    width: 100%;
+    font-size: 14px;
+  }
+  #task-list ul {
+    padding: 0;
+  }
+  #task-list li {
+    font-size: 14px;
+  }
 }
 
-#task-list a {
-    margin-left: 10px;
-    text-decoration: none;
-    color: #007bff;
-}
-
-#task-list a:hover {
-    text-decoration: underline;
-}
-
-#calendar {
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-#task-stats {
-    max-width: 600px;
-    margin: 0 auto;
-}
+/*# sourceMappingURL=dashboard.css.map */
