@@ -4,11 +4,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 ?>
 
-<header style="display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-evenly;
-    flex-direction: row;
-    align-items: center;">
+<header style="display: flex; flex-wrap: nowrap; justify-content: space-evenly; flex-direction: row; align-items: center;">
     <link rel="stylesheet" href="../assets/css/header.css">
     <h1>Gerenciador de Tarefas</h1>
     <nav>

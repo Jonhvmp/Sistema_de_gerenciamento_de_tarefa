@@ -14,7 +14,33 @@ class User {
         $this->conn = $db;
     }
 
+    // Função para validar o formato do email
+    private function isValidEmail($email) {
+        return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
+    }
+
+    // Função para validar a existência do email (exemplo básico)
+    private function emailExists($email) {
+        $query = "SELECT id FROM " . $this->table_name . " WHERE email = ? LIMIT 0,1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->store_result();
+
+        return $stmt->num_rows > 0;
+    }
+
     public function register($name, $email, $password) {
+        // Verifica se o formato do email é válido
+        if (!$this->isValidEmail($email)) {
+            return "Formato de email inválido.";
+        }
+
+        // Verifica se o email já existe
+        if ($this->emailExists($email)) {
+            return "Email já está em uso.";
+        }
+
         $query = "INSERT INTO " . $this->table_name . " (name, email, password) VALUES (?, ?, ?)";
         $stmt = $this->conn->prepare($query);
 
@@ -80,6 +106,11 @@ class User {
     }
 
     public function updateProfile($id, $name, $email) {
+        // Verifica se o formato do email é válido
+        if (!$this->isValidEmail($email)) {
+            return "Formato de email inválido.";
+        }
+
         $query = "UPDATE " . $this->table_name . " SET name = ?, email = ? WHERE id = ?";
         $stmt = $this->conn->prepare($query);
 
