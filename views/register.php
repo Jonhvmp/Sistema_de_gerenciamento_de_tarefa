@@ -22,9 +22,9 @@ if (isset($_SESSION['success'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/css/register.css">
     <?php include '../templates/head.php'; ?>
     <title>Criar Conta</title>
+    <link rel="stylesheet" href="../assets/css/register.css">
 </head>
 <body class="bg-gray-100">
 

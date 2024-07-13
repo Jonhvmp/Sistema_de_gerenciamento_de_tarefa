@@ -1,35 +1,35 @@
 <?php
-session_start();
+    session_start();
 
-if (isset($_SESSION['user_id'])) {
-    header("Location: ../views/dashboard.php");
-    exit();
-}
+    if (isset($_SESSION['user_id'])) {
+        header("Location: ../views/dashboard.php");
+        exit();
+    }
 
-if (isset($_SESSION['error'])) {
-    $error = $_SESSION['error'];
-    unset($_SESSION['error']);
-}
+    if (isset($_SESSION['error'])) {
+        $error = $_SESSION['error'];
+        unset($_SESSION['error']);
+    }
 
-if (isset($_SESSION['success'])) {
-    $success = $_SESSION['success'];
-    unset($_SESSION['success']);
-}
+    if (isset($_SESSION['success'])) {
+        $success = $_SESSION['success'];
+        unset($_SESSION['success']);
+    }
 
-if (isset($_SESSION['message'])) {
-    $message = $_SESSION['message'];
-    unset($_SESSION['message']);
-}
+    if (isset($_SESSION['message'])) {
+        $message = $_SESSION['message'];
+        unset($_SESSION['message']);
+    }
 
-if (isset($_SESSION['email'])) {
-    $email = $_SESSION['email'];
-    unset($_SESSION['email']);
-}
+    if (isset($_SESSION['email'])) {
+        $email = $_SESSION['email'];
+        unset($_SESSION['email']);
+    }
 
-if (isset($_SESSION['password'])) {
-    $password = $_SESSION['password'];
-    unset($_SESSION['password']);
-}
+    if (isset($_SESSION['password'])) {
+        $password = $_SESSION['password'];
+        unset($_SESSION['password']);
+    }
 ?>
 
 <!DOCTYPE html>
@@ -41,6 +41,137 @@ if (isset($_SESSION['password'])) {
     <title>Login</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* assets/css/login.css */
+
+/* Estilos Globais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    align-items: stretch;
+    min-height: 100vh;
+    margin: 0;
+    flex-direction: column;
+}
+
+.container {
+    width: 100%;
+    max-width: 400px;
+    margin: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin: 10px 0 5px;
+    color: #555;
+}
+
+input {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus {
+    border-color: #5cb85c;
+    box-shadow: 0 0 5px rgba(92, 184, 92, 0.2);
+}
+
+button {
+    padding: 10px;
+    background: #5cb85c;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s, transform 0.3s;
+}
+
+button:hover {
+    background: #4cae4c;
+    transform: translateY(-2px);
+}
+
+.alert {
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.alert-danger {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+a {
+    color: #5cb85c;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #4cae4c;
+    text-decoration: underline;
+}
+
+/* Layout do Footer e Links de Ação */
+footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+footer p {
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+        padding: 15px;
+    }
+
+    button {
+        font-size: 14px;
+    }
+
+    input {
+        font-size: 14px;
+    }
+}
+
+.bg-gray-100 {
+    --tw-bg-opacity: 1;
+    background: linear-gradient(45deg, black, #333333);
+}
+
+    </style>
 </head>
 <body class="bg-gray-100">
 
