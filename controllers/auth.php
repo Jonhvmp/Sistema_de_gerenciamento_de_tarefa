@@ -20,6 +20,10 @@ function checkEmailDomain($email) {
     return checkdnsrr($domain, "MX") || checkdnsrr($domain, "A");
 }
 
+// Conexão com o banco de dados
+$database = new Database();
+$conn = $database->getConnection();
+
 // Verifica se o método de solicitação é POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Processa o login
