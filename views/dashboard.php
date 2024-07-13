@@ -2,11 +2,11 @@
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
+    header('Location: ../views/login.php');
     exit();
 }
 
-include_once '../config/database.php'; // Inclua o arquivo apenas uma vez
+include_once '../config/database.php';
 
 // Cria uma instância da classe Database
 $database = new Database();
