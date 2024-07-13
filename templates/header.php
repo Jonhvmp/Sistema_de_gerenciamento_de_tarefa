@@ -23,7 +23,7 @@ if (session_status() == PHP_SESSION_NONE) {
             <?php endif; ?>
         </ul>
     </nav>
-    <div class="profile-picture">
+    <div class="profile-picture" style="margin-left: 0;">
         <?php if (isset($_SESSION['user_id'])): ?>
             <?php 
             include '../config/database.php';
@@ -35,9 +35,13 @@ if (session_status() == PHP_SESSION_NONE) {
             $user = $result->fetch_assoc();
             ?>
             <?php if (!empty($user['profile_picture'])): ?>
-                <img src="<?php echo htmlspecialchars($user['profile_picture']); ?>" alt="Foto de Perfil" class="rounded-circle" style="width: 50px; height: 50px;">
+                <a href="../views/profile.php">
+                    <img src="<?php echo htmlspecialchars($user['profile_picture']); ?>" alt="Foto de Perfil" class="rounded-circle" style="width: 50px; height: 50px;">
+                </a>
             <?php else: ?>
-                <img src="../assets/img/default-avatar.png" alt="Ícone de Perfil" class="rounded-circle" style="width: 50px; height: 50px;">
+                <a href="../views/profile.php">
+                    <i class="bi bi-person-circle" style="font-size: 50px;"></i>
+                </a>
             <?php endif; ?>
         <?php endif; ?>
     </div>
