@@ -1,0 +1,103 @@
+// Importações de bibliotecas ou arquivos de estilo externos, se necessário
+@import '../path/to/external/library.scss';
+
+// Variáveis de cores e estilos
+$primary-color: #4CAF50;
+$secondary-color: #2196F3;
+
+// Estilos para o Dashboard
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
+
+.dashboard-summary {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+
+    h2 {
+        color: $primary-color;
+        margin-bottom: 10px;
+    }
+
+    #task-stats {
+        text-align: center;
+
+        canvas#taskChart {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+        }
+    }
+}
+
+.task-manager {
+    margin-bottom: 20px;
+
+    h2 {
+        color: $primary-color;
+        margin-bottom: 10px;
+    }
+
+    button#add-task-btn {
+        background-color: $secondary-color;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+            background-color: darken($secondary-color, 10%);
+        }
+    }
+
+    #task-list {
+        ul {
+            list-style-type: none;
+            padding: 0;
+
+            li {
+                padding: 10px 0;
+                border-bottom: 1px solid #eee;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                a {
+                    text-decoration: none;
+                    color: $secondary-color;
+                    margin-left: 10px;
+                    transition: color 0.3s ease;
+
+                    &:hover {
+                        color: darken($secondary-color, 20%);
+                    }
+                }
+            }
+        }
+    }
+}
+
+.calendar {
+    h2 {
+        color: $primary-color;
+        margin-bottom: 10px;
+    }
+}
+
+// Estilos para o rodapé, se necessário
+@import '../path/to/footer.scss';

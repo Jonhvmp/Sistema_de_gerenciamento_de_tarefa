@@ -1,5 +1,30 @@
 <?php
 session_start();
+
+if (isset($_SESSION['user_id'])) {
+    header("Location: dashboard.php");
+    exit();
+}
+
+if (isset($_SESSION['alert'])) {
+    $alert = $_SESSION['alert'];
+    unset($_SESSION['alert']);
+}
+
+if (isset($_SESSION['email'])) {
+    $email = $_SESSION['email'];
+    unset($_SESSION['email']);
+}
+
+if (isset($_SESSION['password'])) {
+    $password = $_SESSION['password'];
+    unset($_SESSION['password']);
+}
+
+if (isset($_SESSION['message'])) {
+    $message = $_SESSION['message'];
+    unset($_SESSION['message']);
+}
 ?>
 
 <!DOCTYPE html>

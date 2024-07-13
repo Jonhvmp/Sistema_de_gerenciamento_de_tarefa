@@ -1,13 +1,57 @@
-/* Estilos específicos para a página de dashboard */
-
-*{
+/* dashboard.css */
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+    font-family: Arial, sans-serif;
 }
 
-.container {
+body {
+    font-family: Arial, sans-serif;
+}
+
+main {
     padding: 20px;
-    background-color: #f4f4f4;
+}
+
+.dashboard-summary,
+.task-manager,
+.calendar,
+.profile-info {
+    margin-bottom: 30px;
+}
+
+h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+#task-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#task-list li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+#task-list a {
+    margin-left: 10px;
+    text-decoration: none;
+    color: #007bff;
+}
+
+#task-list a:hover {
+    text-decoration: underline;
+}
+
+#calendar {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+#task-stats {
+    max-width: 600px;
+    margin: 0 auto;
 }

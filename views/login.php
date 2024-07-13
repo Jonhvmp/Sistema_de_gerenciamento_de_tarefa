@@ -10,6 +10,26 @@ if (isset($_SESSION['error'])) {
     $error = $_SESSION['error'];
     unset($_SESSION['error']);
 }
+
+if (isset($_SESSION['success'])) {
+    $success = $_SESSION['success'];
+    unset($_SESSION['success']);
+}
+
+if (isset($_SESSION['message'])) {
+    $message = $_SESSION['message'];
+    unset($_SESSION['message']);
+}
+
+if (isset($_SESSION['email'])) {
+    $email = $_SESSION['email'];
+    unset($_SESSION['email']);
+}
+
+if (isset($_SESSION['password'])) {
+    $password = $_SESSION['password'];
+    unset($_SESSION['password']);
+}
 ?>
 
 <!DOCTYPE html>

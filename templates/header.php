@@ -12,6 +12,7 @@ if (session_status() == PHP_SESSION_NONE) {
             <?php if (isset($_SESSION['user_id'])): ?>
                 <li><a href="../views/dashboard.php">Painel</a></li>
                 <li><a href="../views/profile.php">Perfil</a></li>
+                <li><a href="../views/tasks.php">Tarefas</a></li>
                 <li><a href="../controllers/logout.php">Sair</a></li>
             <?php else: ?>
                 <li><a href="../views/login.php">Conecte-se</a></li>
@@ -22,7 +23,11 @@ if (session_status() == PHP_SESSION_NONE) {
     <div class="profile-picture" style="margin-left: 0;">
         <?php if (isset($_SESSION['user_id'])): ?>
             <?php 
-            include '../config/database.php';
+            // Assegure-se de que a variável $conn já está definida e conectada
+            // Este código deve estar em um arquivo separado que lida com a conexão
+            $database = new Database();
+            $conn = $database->getConnection();
+
             $user_id = $_SESSION['user_id'];
             $stmt = $conn->prepare("SELECT profile_picture FROM users WHERE id = ?");
             $stmt->bind_param("i", $user_id);

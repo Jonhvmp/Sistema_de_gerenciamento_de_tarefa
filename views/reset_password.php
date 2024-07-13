@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../config/database.php'; // Inclua a conexão com o banco de dados
+include_once '../config/database.php'; // Inclua a conexão com o banco de dados
 
 function cleanInput($data) {
     return htmlspecialchars(stripslashes(trim($data)));

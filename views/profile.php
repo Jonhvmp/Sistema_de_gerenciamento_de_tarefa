@@ -1,29 +1,23 @@
 <?php
 session_start();
-include '../config/database.php';
+include_once '../config/database.php';
 include '../models/User.php';
 
-// Verifique se o usuário está logado
+
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
 
-// Cria uma conexão com o banco de dados
-$db = new mysqli($servername, $username, $password, $dbname);
-
-// Verifique a conexão
-if ($db->connect_error) {
-    die("Conexão falhou: " . $db->connect_error);
-}
+// Cria uma instância da classe Database
+$database = new Database();
+$conn = $database->getConnection();
 
 // Cria uma instância da classe User
-$user = new User($db);
+$user = new User($conn);
 
-// Obtém o ID do usuário da sessão
 $user_id = $_SESSION['user_id'];
 
-// Obtém os detalhes do usuário
 if ($user->getUserById($user_id)) {
     $user_name = $user->getName();
     $user_email = $user->getEmail();
@@ -32,14 +26,11 @@ if ($user->getUserById($user_id)) {
     echo "Usuário não encontrado.";
 }
 
-// Mensagem de feedback
 $message = '';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Atualizar perfil
     if (isset($_POST['update_profile'])) {
         $name = htmlspecialchars(trim($_POST['name']));
         $email = htmlspecialchars(trim($_POST['email']));
-        // Atualizar o perfil do usuário
         if ($user->updateProfile($user_id, $name, $email)) {
             $_SESSION['message'] = "Perfil atualizado com sucesso.";
             header("Location: profile.php");
@@ -47,21 +38,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             $message = "Erro ao atualizar perfil.";
         }
-    }
-    // Alterar senha
-    elseif (isset($_POST['change_password'])) {
+    } elseif (isset($_POST['change_password'])) {
         $current_password = $_POST['current_password'];
         $new_password = $_POST['new_password'];
         $confirm_password = $_POST['confirm_password'];
-        
         if ($user->changePassword($user_id, $current_password, $new_password, $confirm_password)) {
             $_SESSION['message'] = "Senha alterada com sucesso.";
         } else {
             $message = "Erro ao alterar senha.";
         }
-    }
-    // Upload da foto de perfil
-    elseif (isset($_POST['upload_picture'])) {
+    } elseif (isset($_POST['upload_picture'])) {
         if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == 0) {
             if (!is_dir('../uploads')) {
                 mkdir('../uploads', 0755, true);
@@ -83,7 +69,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-// Mensagem de feedback
 if (isset($_SESSION['message'])) {
     $message = $_SESSION['message'];
     unset($_SESSION['message']);
