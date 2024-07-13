@@ -28,6 +28,7 @@ $result = $stmt->get_result();
     <link rel="stylesheet" href="../assets/css/dashboard.css">
     <?php include '../templates/head.php'; ?>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/dist/fullcalendar.min.css">
 </head>
 <body>
     <?php include '../templates/header.php'; ?>
@@ -36,7 +37,6 @@ $result = $stmt->get_result();
         <section class="dashboard-summary">
             <h2>Resumo das Tarefas</h2>
             <div id="task-stats">
-                <!-- Gráficos e resumo aqui -->
                 <canvas id="taskChart"></canvas>
             </div>
         </section>
@@ -66,11 +66,26 @@ $result = $stmt->get_result();
             <div id="calendar"></div>
         </section>
 
+        <!-- Modal de Adição de Tarefa -->
+        <div id="add-task-modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>Adicionar Nova Tarefa</h2>
+                <form action="../controllers/add_task.php" method="post">
+                    <label for="task-title">Título:</label>
+                    <input type="text" id="task-title" name="title" required>
+                    <label for="task-description">Descrição:</label>
+                    <textarea id="task-description" name="description" required></textarea>
+                    <button type="submit">Adicionar Tarefa</button>
+                </form>
+            </div>
+        </div>
+
         <?php include '../templates/footer.php'; ?>
     </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.0/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
     <script src="../assets/js/dashboard.js"></script>
 </body>
 </html>

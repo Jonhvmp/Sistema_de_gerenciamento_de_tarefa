@@ -1,15 +1,16 @@
-// Importações de bibliotecas ou arquivos de estilo externos, se necessário
+// assets/sass/dashboard.scss
+
+// Importações de bibliotecas ou arquivos de estilo externos
+@import 'path/to/fullcalendar.min.css'; // Substitua pelo caminho correto
 
 // Variáveis de cores e estilos
 $primary-color: #4CAF50;
 $secondary-color: #2196F3;
-$light-background: #f9f9f9;
-$border-color: #ddd;
 
 // Estilos para o Dashboard
 body {
     font-family: 'Arial', sans-serif;
-    background-color: $light-background;
+    background-color: #f0f0f0;
     margin: 0;
     padding: 0;
 }
@@ -23,17 +24,14 @@ main {
     border-radius: 8px;
 }
 
-// Dashboard Summary
 .dashboard-summary {
     margin-bottom: 20px;
     padding-bottom: 20px;
-    border-bottom: 1px solid $border-color;
+    border-bottom: 1px solid #ccc;
 
     h2 {
         color: $primary-color;
         margin-bottom: 10px;
-        font-size: 1.5em;
-        font-weight: bold;
     }
 
     #task-stats {
@@ -47,15 +45,12 @@ main {
     }
 }
 
-// Task Manager
 .task-manager {
     margin-bottom: 20px;
 
     h2 {
         color: $primary-color;
         margin-bottom: 10px;
-        font-size: 1.5em;
-        font-weight: bold;
     }
 
     button#add-task-btn {
@@ -65,12 +60,10 @@ main {
         padding: 10px 20px;
         font-size: 16px;
         cursor: pointer;
-        border-radius: 5px;
-        transition: background-color 0.3s ease, transform 0.3s ease;
+        transition: background-color 0.3s ease;
 
         &:hover {
             background-color: darken($secondary-color, 10%);
-            transform: scale(1.05);
         }
     }
 
@@ -80,15 +73,11 @@ main {
             padding: 0;
 
             li {
-                padding: 10px 15px;
-                border-bottom: 1px solid $border-color;
+                padding: 10px 0;
+                border-bottom: 1px solid #eee;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-
-                &:last-child {
-                    border-bottom: none;
-                }
 
                 a {
                     text-decoration: none;
@@ -105,36 +94,121 @@ main {
     }
 }
 
-// Calendar
 .calendar {
+    margin-top: 20px;
+    position: relative;
+
     h2 {
         color: $primary-color;
         margin-bottom: 10px;
-        font-size: 1.5em;
-        font-weight: bold;
     }
 
     #calendar {
-        /* Estilize o calendário conforme necessário */
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 0;
+        border-radius: 8px;
+        overflow: hidden;
+
+        .fc {
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+            .fc-toolbar {
+                background-color: $primary-color;
+                color: #fff;
+                padding: 10px;
+                border-bottom: 1px solid #ddd;
+            }
+
+            .fc-daygrid-day {
+                border: 1px solid #ddd;
+            }
+
+            .fc-daygrid-day-number {
+                color: #333;
+            }
+
+            .fc-daygrid-day-events {
+                color: $secondary-color;
+            }
+
+            .fc-button-primary {
+                background-color: $secondary-color;
+                border-color: $secondary-color;
+
+                &:hover {
+                    background-color: darken($secondary-color, 10%);
+                    border-color: darken($secondary-color, 10%);
+                }
+            }
+        }
     }
 }
 
-// Media Queries para Responsividade
-@media (max-width: 768px) {
-    main {
-        padding: 10px;
-    }
 
-    button#add-task-btn {
-        width: 100%;
-        font-size: 14px;
-    }
+/* Estilos para o Modal */
+#add-task-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-    #task-list ul {
-        padding: 0;
-    }
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    position: relative;
+}
 
-    #task-list li {
-        font-size: 14px;
-    }
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 24px;
+    color: #333;
+}
+
+h2 {
+    margin-top: 0;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-top: 10px;
+}
+
+input, textarea {
+    margin-top: 5px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button {
+    margin-top: 10px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: darken(#4CAF50, 10%);
 }
