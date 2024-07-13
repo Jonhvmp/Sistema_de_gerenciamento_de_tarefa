@@ -24,21 +24,22 @@ if (isset($_SESSION['error'])) {
 </head>
 <body class="bg-gray-100">
 
-    <?php if (isset($_SESSION['error'])): ?>
-        <div class="alert alert-danger">
-            <?php 
-            echo $_SESSION['error']; 
-            unset($_SESSION['error']);
-            ?>
-        </div>
-    <?php endif; ?>
-
     <?php include '../templates/header.php'; ?>
 
     <div class="container mx-auto mt-10">
         <div class="flex justify-center">
             <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-sm">
                 <h2 class="text-center text-2xl font-bold mb-6">Login</h2>
+
+                <?php if (isset($_SESSION['error'])): ?>
+                    <div class="alert alert-danger">
+                        <?php 
+                        echo $_SESSION['error']; 
+                        unset($_SESSION['error']);
+                        ?>
+                    </div>
+                <?php endif; ?>
+
                 <?php if (isset($error)): ?>
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <?= $error ?>

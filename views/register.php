@@ -13,15 +13,6 @@ session_start();
 </head>
 <body class="bg-gray-100">
 
-    <?php if (isset($_SESSION['error'])): ?>
-        <div class="alert alert-danger">
-            <?php 
-            echo $_SESSION['error']; 
-            unset($_SESSION['error']);
-            ?>
-        </div>
-    <?php endif; ?>
-
     <?php include '../templates/header.php'; ?>
 
         <div class="container mt-5">
@@ -30,6 +21,15 @@ session_start();
                 <div class="card shadow-lg rounded-lg bg-white" style="min-height: 450px;">
                     <div class="card-body p-5">
                         <h2 class="text-center mb-4 text-2xl font-semibold">Criar Sua Conta</h2>
+
+                        <?php if (isset($_SESSION['error'])): ?>
+                            <div class="alert alert-danger">
+                                <?php 
+                                echo $_SESSION['error']; 
+                                unset($_SESSION['error']);
+                                ?>
+                            </div>
+                        <?php endif; ?>
                         
                         <form action="../controllers/auth.php" method="POST" novalidate class="needs-validation">
                             <div class="mb-4">

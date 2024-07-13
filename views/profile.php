@@ -164,7 +164,7 @@ if (isset($_SESSION['message'])) {
         </div>
 
         <div class="mt-4 text-center">
-            <a href="logout.php" class="btn btn-secondary">Logout</a>
+            <a href="../controllers/logout.php" class="btn btn-secondary">Logout</a>
         </div>
     </div>
 
