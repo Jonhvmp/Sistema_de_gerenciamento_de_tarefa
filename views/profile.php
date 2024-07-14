@@ -1,4 +1,6 @@
 <?php
+// Author: Jonh Alex Paz de Lima
+// All rights reserved
 session_start();
 include_once '../config/database.php';
 include '../models/User.php';
@@ -76,6 +78,11 @@ if (isset($_SESSION['message'])) {
 ?>
 
 <!DOCTYPE html>
+<!-- 
+Author: Jonh Alex Paz de Lima
+All rights reserved 
+-->
+
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">

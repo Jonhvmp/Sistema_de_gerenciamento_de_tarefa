@@ -1,3 +1,8 @@
+/*
+ * Author: Jonh Alex Paz de Lima
+ * All rights reserved
+ */
+
 document.addEventListener('DOMContentLoaded', function() {
     // Função para exibir formulário com efeito de deslizar
     function slideDown(element) {

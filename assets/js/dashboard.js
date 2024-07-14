@@ -1,3 +1,9 @@
+/*
+ * Author: Jonh Alex Paz de Lima
+ * All rights reserved
+ */
+
+
 // Função para inicializar o gráfico de tarefas
 function initializeTaskChart() {
     const ctx = document.getElementById('taskChart').getContext('2d');

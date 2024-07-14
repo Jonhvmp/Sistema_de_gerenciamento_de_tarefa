@@ -1,4 +1,6 @@
 <?php
+// Author: Jonh Alex Paz de Lima
+// All rights reserved
 session_start();
 
 if (!isset($_SESSION['user_id'])) {

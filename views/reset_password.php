@@ -1,4 +1,6 @@
 <?php
+// Author: Jonh Alex Paz de Lima
+// All rights reserved
 session_start();
 include_once '../config/database.php'; // Inclua a conexão com o banco de dados
 
@@ -39,6 +41,11 @@ $user_id = $user['id'];
 ?>
 
 <!DOCTYPE html>
+<!-- 
+Author: Jonh Alex Paz de Lima
+All rights reserved 
+-->
+
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">

@@ -1,4 +1,7 @@
 <?php
+// Author: Jonh Alex Paz de Lima
+// All rights reserved
+
 // delete_task.php
 session_start();
 

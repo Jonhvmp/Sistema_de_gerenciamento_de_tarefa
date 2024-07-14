@@ -1,5 +1,11 @@
 // assets/js/header.js
 
+/*
+ * Author: Jonh Alex Paz de Lima
+ * All rights reserved
+ */
+
+
 document.addEventListener('DOMContentLoaded', () => {
     // Animação do header ao rolar a página
     const header = document.querySelector('header');

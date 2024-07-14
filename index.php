@@ -1,4 +1,6 @@
 <?php
+// Author: Jonh Alex Paz de Lima
+// All rights reserved
 session_start();
 
 // Verifica se o usuário está logado

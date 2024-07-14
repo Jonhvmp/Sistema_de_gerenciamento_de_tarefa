@@ -1,4 +1,6 @@
 <?php
+// Author: Jonh Alex Paz de Lima
+// All rights reserved
 session_start();
 
 if (isset($_SESSION['user_id'])) {
@@ -28,6 +30,11 @@ if (isset($_SESSION['message'])) {
 ?>
 
 <!DOCTYPE html>
+<!-- 
+Author: Jonh Alex Paz de Lima
+All rights reserved 
+-->
+
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">

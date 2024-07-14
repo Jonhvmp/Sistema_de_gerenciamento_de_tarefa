@@ -1,4 +1,6 @@
 <?php
+// Author: Jonh Alex Paz de Lima
+// All rights reserved
 session_start();
 
 // Verifica se o usuário está autenticado
@@ -22,6 +24,11 @@ $result = $stmt->get_result();
 ?>
 
 <!DOCTYPE html>
+<!-- 
+Author: Jonh Alex Paz de Lima
+All rights reserved 
+-->
+
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">

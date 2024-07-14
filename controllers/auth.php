@@ -1,4 +1,6 @@
 <?php
+// Author: Jonh Alex Paz de Lima
+// All rights reserved
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
