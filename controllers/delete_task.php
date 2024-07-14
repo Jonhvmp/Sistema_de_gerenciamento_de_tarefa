@@ -1,8 +1,6 @@
 <?php
 // Author: Jonh Alex Paz de Lima
 // All rights reserved
-
-// delete_task.php
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
@@ -11,9 +9,10 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 if (isset($_GET['id'])) {
-    $task_id = $_GET['id'];
-    $connection = (new Database())->getConnection();
-    $stmt = $connection->prepare("DELETE FROM tasks WHERE id = ?");
+    $task_id = $_GET['id'] ?? '';
+    $database = new Database();
+    $conn = $database->getConnection();
+    $stmt = $conn->prepare("DELETE FROM tasks WHERE id = ?");
     $stmt->bind_param("i", $task_id);
 
     if ($stmt->execute()) {
@@ -25,3 +24,4 @@ if (isset($_GET['id'])) {
 } else {
     header('Location: ../views/dashboard.php');
 }
+?>

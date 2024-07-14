@@ -1,40 +1,84 @@
 <?php
-// Author: Jonh Alex Paz de Lima
-// All rights reserved
-session_start();
 
-// Verifica se o usuário está autenticado
-if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
-    exit();
-}
+    session_start();
 
-include_once '../config/database.php'; // Inclua o arquivo apenas uma vez
+    if (!isset($_SESSION['user_id'])) {
+        header('Location: ../views/login.php');
+        exit();
+    }
 
-// Cria uma instância da classe Database
-$database = new Database();
-$conn = $database->getConnection();
+    // Inclua o cabeçalho
+    include '../templates/header.php';
 
-// Consulta para obter tarefas do usuário
-$query = "SELECT * FROM tasks WHERE user_id = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("i", $_SESSION['user_id']);
-$stmt->execute();
-$result = $stmt->get_result();
-?>
+    // Inclua o arquivo de conexão com o banco de dados
+    
+    include_once '../config/database.php';
+
+    $database = new Database();
+    $conn = $database->getConnection();
+
+    // Verifique se o método HTTP é POST
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Verifique se a ação é adicionar uma nova tarefa
+        if ($_POST['action'] === 'add') {
+            $title = $_POST['title'] ?? '';
+            $description = $_POST['description'] ?? '';
+            $due_date = $_POST['due_date'] ?? '';
+            $user_id = $_SESSION['user_id'];
+
+            $query = "INSERT INTO tasks (title, description, due_date, user_id) VALUES (?, ?, ?, ?)";
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param("sssi", $title, $description, $due_date, $user_id);
+
+            if ($stmt->execute()) {
+                echo json_encode(['success' => true, 'message' => 'Tarefa adicionada com sucesso!']);
+                exit();
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Erro ao adicionar tarefa.']);
+                exit();
+            }
+        }
+    }
+
+    // Obtenha os dados das tarefas do banco de dados
+    
+    $user_id = $_SESSION['user_id'];
+    $query = "SELECT * FROM tasks WHERE user_id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Inicialize as variáveis de contagem
+    $pending = 0;
+    $completed = 0;
+    $overdue = 0;
+
+    // Obtenha os dados das tarefas
+    $taskData = [];
+    while ($task = $result->fetch_assoc()) {
+        switch ($task['status']) {
+            case 'pending':
+                $pending++;
+                break;
+            case 'completed':
+                $completed++;
+                break;
+            case 'overdue':
+                $overdue++;
+                break;
+        }
+
+        $taskData[] = $task;
+    }
+?>    
 
 <!DOCTYPE html>
-<!-- 
-Author: Jonh Alex Paz de Lima
-All rights reserved 
--->
-
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Gerenciador de Tarefas</title>
-    <link rel="stylesheet" href="../assets/css/dashboard.css">
     <?php include '../templates/head.php'; ?>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/dist/fullcalendar.min.css">
@@ -425,12 +469,8 @@ All rights reserved
 
     </style>
 </head>
-<body>
-    <?php include '../templates/header.php'; ?>
-
-    <main>
-        <!-- Seção de Resumo das Tarefas -->
-        <section class="dashboard-summary">
+<!-- Seção de Resumo das Tarefas -->
+<section class="dashboard-summary">
             <h2>Resumo das Tarefas</h2>
             <div id="task-stats">
                 <canvas id="taskChart"></canvas>
@@ -440,19 +480,16 @@ All rights reserved
         <!-- Seção de Gerenciamento de Tarefas -->
         <section class="task-manager">
             <h2>Gerenciamento de Tarefas</h2>
-            <!-- Botão para Adicionar Nova Tarefa -->
             <button id="add-task-btn">Adicionar Nova Tarefa</button>
-
-            <!-- Formulário para Adicionar Tarefas -->
             <div id="task-form-container" style="display:none;">
                 <form id="task-form">
                     <label for="task-title">Título da Tarefa:</label>
                     <input type="text" id="task-title" name="title" required>
+                    <label for="task-description">Descrição:</label>
+                    <textarea id="task-description" name="description" required></textarea>
                     <input type="submit" value="Adicionar Tarefa">
                 </form>
             </div>
-
-            <!-- Lista de Tarefas -->
             <div id="task-list">
                 <ul>
                     <?php if ($result->num_rows > 0): ?>
@@ -483,5 +520,46 @@ All rights reserved
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
     <script src="../assets/js/dashboard.js"></script>
+
+    <script>
+    // Dados das tarefas obtidos do PHP
+    var taskData = <?php echo json_encode($taskData); ?>;
+
+    // Preparar dados para o gráfico
+    var ctx = document.getElementById('taskChart').getContext('2d');
+    var taskChart = new Chart(ctx, {
+        type: 'bar', // Tipo de gráfico
+        data: {
+            labels: ['Pendente', 'Concluída', 'Atrasada'], // Rótulos para o gráfico
+            datasets: [{
+                label: 'Número de Tarefas',
+                data: [
+                    taskData.pending,
+                    taskData.completed,
+                    taskData.overdue
+                ],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)', // Cor de fundo para tarefas pendentes
+                    'rgba(54, 162, 235, 0.2)', // Cor de fundo para tarefas concluídas
+                    'rgba(255, 206, 86, 0.2)'  // Cor de fundo para tarefas atrasadas
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)', // Cor da borda para tarefas pendentes
+                    'rgba(54, 162, 235, 1)', // Cor da borda para tarefas concluídas
+                    'rgba(255, 206, 86, 1)'  // Cor da borda para tarefas atrasadas
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true // Iniciar o eixo Y do gráfico em zero
+                }
+            }
+        }
+    });
+</script>
+
 </body>
 </html>

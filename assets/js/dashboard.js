@@ -3,19 +3,30 @@
  * All rights reserved
  */
 
-
 // Função para inicializar o gráfico de tarefas
-function initializeTaskChart() {
+function initializeTaskChart(taskData) {
     const ctx = document.getElementById('taskChart').getContext('2d');
     const taskChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Tarefa 1', 'Tarefa 2', 'Tarefa 3'], // Exemplo de rótulos
+            labels: ['Pendente', 'Concluída', 'Atrasada'], // Rótulos baseados nos status das tarefas
             datasets: [{
                 label: 'Número de Tarefas',
-                data: [10, 15, 7], // Exemplo de dados
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
+                data: [
+                    taskData.pending,   // Dados dinâmicos para tarefas pendentes
+                    taskData.completed, // Dados dinâmicos para tarefas concluídas
+                    taskData.overdue    // Dados dinâmicos para tarefas atrasadas
+                ],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)', // Cor de fundo para tarefas pendentes
+                    'rgba(54, 162, 235, 0.2)', // Cor de fundo para tarefas concluídas
+                    'rgba(255, 206, 86, 0.2)'  // Cor de fundo para tarefas atrasadas
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)', // Cor da borda para tarefas pendentes
+                    'rgba(54, 162, 235, 1)', // Cor da borda para tarefas concluídas
+                    'rgba(255, 206, 86, 1)'  // Cor da borda para tarefas atrasadas
+                ],
                 borderWidth: 1
             }]
         },
@@ -122,7 +133,16 @@ function handleAddTask() {
 // Função para inicializar todos os componentes do dashboard
 function initializeDashboard() {
     if (document.getElementById('taskChart')) {
-        initializeTaskChart();
+        // Buscar dados de tarefas do servidor
+        fetch('/Sistema_de_gerenciamento_de_tarefa/controllers/task.php?action=get_task_data')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    initializeTaskChart(data.taskData); // Passa dados reais para o gráfico
+                } else {
+                    console.error('Erro ao obter dados das tarefas:', data.message);
+                }
+            });
     }
     
     if (document.getElementById('calendar')) {

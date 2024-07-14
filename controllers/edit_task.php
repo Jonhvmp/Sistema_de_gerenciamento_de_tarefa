@@ -1,26 +1,24 @@
 <?php
 // Author: Jonh Alex Paz de Lima
 // All rights reserved
-
-// edit_task.php
 session_start();
-
-// Criar uma instância da classe Database
-$database = new Database();
-$conn = $database->getConnection();
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: ../views/login.php');
     exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $task_id = $_POST['task_id'];
-    $title = $_POST['title'];
-    $description = $_POST['description'];
-    $status = $_POST['status'];
+include_once '../config/database.php';
+$database = new Database();
+$conn = $database->getConnection();
 
-    $stmt = $connection->prepare("UPDATE tasks SET title = ?, description = ?, status = ? WHERE id = ?");
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $task_id = $_POST['task_id'] ?? '';
+    $title = $_POST['title'] ?? '';
+    $description = $_POST['description'] ?? '';
+    $status = $_POST['status'] ?? '';
+
+    $stmt = $conn->prepare("UPDATE tasks SET title = ?, description = ?, status = ? WHERE id = ?");
     $stmt->bind_param("sssi", $title, $description, $status, $task_id);
 
     if ($stmt->execute()) {
@@ -30,8 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['error'] = 'Erro ao atualizar tarefa.';
     }
 } else {
-    $task_id = $_GET['id'];
-    $stmt = $connection->prepare("SELECT * FROM tasks WHERE id = ?");
+    $task_id = $_GET['id'] ?? '';
+    $stmt = $conn->prepare("SELECT * FROM tasks WHERE id = ?");
     $stmt->bind_param("i", $task_id);
     $stmt->execute();
     $task = $stmt->get_result()->fetch_assoc();
