@@ -123,4 +123,4 @@ Este projeto está licenciado sob a licença MIT. Veja o arquivo [LICENSE](LICEN
 Para mais informações, entre em contato:
 - **Nome**: Jonh Alex
 - **Email**: it.jonhpaz@gmai.com | Jonhpaz08@gmail.com
-- **LinkedIn**: [Seu Perfil](https://www.linkedin.com/in/jonhvmp)
+- **LinkedIn**: [Jonh Akex](https://www.linkedin.com/in/jonhvmp)
