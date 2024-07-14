@@ -1,3 +1,4 @@
+<script src="../assets/js/header.js"></script>
 <footer>
 <style>
     /* assets/css/footer.css */

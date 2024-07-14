@@ -255,6 +255,11 @@ if (isset($_SESSION['success'])) {
             border-radius: 5px;
         }
 
+        .btn-outline-secondary {
+            color: white;
+            border-color: #6c757d;
+        }
+
 
         .bg-gray-100 {
             --tw-bg-opacity: 1;
