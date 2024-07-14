@@ -1,31 +1,39 @@
-/*
- * Author: Jonh Alex Paz de Lima
- * All rights reserved
- */
-
 // Função para inicializar o gráfico de tarefas
 function initializeTaskChart(taskData) {
     const ctx = document.getElementById('taskChart').getContext('2d');
-    const taskChart = new Chart(ctx, {
+
+    // Se um gráfico já existir no canvas, destrua-o
+    if (window.taskChart && typeof window.taskChart.destroy === 'function') {
+        window.taskChart.destroy(); // Use a instância do gráfico para chamar destroy
+    }
+
+    // Verifique se há dados para o gráfico
+    if (taskData.pending === 0 && taskData.completed === 0 && taskData.overdue === 0) {
+        document.getElementById('taskChartContainer').innerHTML = '<p class="no-data-message">Não há tarefas processadas.</p>';
+        return;
+    }
+
+    // Crie um novo gráfico
+    window.taskChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Pendente', 'Concluída', 'Atrasada'], // Rótulos baseados nos status das tarefas
+            labels: ['Pendente', 'Concluída', 'Atrasada'],
             datasets: [{
                 label: 'Número de Tarefas',
                 data: [
-                    taskData.pending,   // Dados dinâmicos para tarefas pendentes
-                    taskData.completed, // Dados dinâmicos para tarefas concluídas
-                    taskData.overdue    // Dados dinâmicos para tarefas atrasadas
+                    taskData.pending || 0,
+                    taskData.completed || 0,
+                    taskData.overdue || 0
                 ],
                 backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)', // Cor de fundo para tarefas pendentes
-                    'rgba(54, 162, 235, 0.2)', // Cor de fundo para tarefas concluídas
-                    'rgba(255, 206, 86, 0.2)'  // Cor de fundo para tarefas atrasadas
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)'
                 ],
                 borderColor: [
-                    'rgba(255, 99, 132, 1)', // Cor da borda para tarefas pendentes
-                    'rgba(54, 162, 235, 1)', // Cor da borda para tarefas concluídas
-                    'rgba(255, 206, 86, 1)'  // Cor da borda para tarefas atrasadas
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)'
                 ],
                 borderWidth: 1
             }]
@@ -38,6 +46,8 @@ function initializeTaskChart(taskData) {
             }
         }
     });
+
+    console.log('Gráfico criado:', window.taskChart); // Verifique se a instância é criada corretamente
 }
 
 // Função para inicializar o calendário
@@ -46,7 +56,7 @@ function initializeCalendar() {
     
     const calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
-        events: '/Sistema_de_gerenciamento_de_tarefa/controllers/task.php?action=get_events', // URL para buscar eventos
+        events: '/Sistema_de_gerenciamento_de_tarefa/controllers/task.php?action=get_events',
         editable: true,
         selectable: true,
         select: function(info) {
@@ -75,6 +85,9 @@ function initializeCalendar() {
                     } else {
                         alert(data.message);
                     }
+                })
+                .catch(error => {
+                    console.error('Erro ao adicionar evento:', error);
                 });
             }
             calendar.unselect();
@@ -98,6 +111,9 @@ function initializeCalendar() {
                     } else {
                         alert(data.message);
                     }
+                })
+                .catch(error => {
+                    console.error('Erro ao excluir evento:', error);
                 });
             }
         }
@@ -126,6 +142,9 @@ function handleAddTask() {
             } else {
                 alert(data.message);
             }
+        })
+        .catch(error => {
+            console.error('Erro ao adicionar tarefa:', error);
         });
     });
 }
@@ -133,15 +152,23 @@ function handleAddTask() {
 // Função para inicializar todos os componentes do dashboard
 function initializeDashboard() {
     if (document.getElementById('taskChart')) {
-        // Buscar dados de tarefas do servidor
-        fetch('/Sistema_de_gerenciamento_de_tarefa/controllers/task.php?action=get_task_data')
-            .then(response => response.json())
+        fetch('/Sistema_de_gerenciamento_de_tarefa/views/dashboard.php?action=get_task_data')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
+                console.log('Dados da API:', data); // Verifique a estrutura dos dados
                 if (data.success) {
                     initializeTaskChart(data.taskData); // Passa dados reais para o gráfico
                 } else {
                     console.error('Erro ao obter dados das tarefas:', data.message);
                 }
+            })
+            .catch(error => {
+                console.error('Erro ao carregar dados do gráfico:', error);
             });
     }
     
